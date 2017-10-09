@@ -19,6 +19,7 @@
 				(
 					'webpage_title' => 'Clients',
 					'clients' => $this->Clients_Model->get_clients()
+					
 				);
 				
 				$this->load->template('clients/view_clients', $data);
