@@ -7,6 +7,7 @@
 		public function __construct()
 		{
 			parent::__construct();
+			$this->load->model('Projects_Model'); 
 			$this->load->model('Clients_Model'); 
 			$this->load->model('Accounts_Model'); 
 		}
@@ -28,6 +29,19 @@
 			{
 				redirect('/');
 			}
+		}
+		
+		public function view_client($client_id)
+		{
+			$data = array
+			(
+				'webpage_title' => 'Client',
+				'client' => $this->Clients_Model->get_client($client_id),
+				'team' => $this->Clients_Model->get_team($client_id),
+				'projects' => $this->Projects_Model->get_projects($client_id)
+			);
+		
+			$this->load->template('clients/view_client', $data);
 		}
 		
 		public function add_clients()

@@ -24,6 +24,47 @@
 				return false;
 			}
 		}
+		
+		public function get_client($client_id)
+		{
+			try
+			{
+				$query = $this->db->query("SELECT * FROM clients WHERE client_id='$client_id'");
+				
+				if($query->num_rows() == 1)
+				{
+					return $query->row_array();
+				}
+				else
+				{
+					return false;
+				}
+			}
+			catch(Exception $ex)
+			{
+				
+			}
+		}
+		
+		public function get_team($client_id)
+		{
+			try
+			{
+				$query = $this->db->query("SELECT account_id, account_fname, account_lname, account_avatar FROM accounts WHERE client_id='$client_id'");
+				
+				if($query->num_rows() == 0)
+				{
+					return false;
+				}
+				else
+				{
+					return $query->result_array();
+				}
+			}
+			catch(Exception $ex)
+			{
+			}
+		}
 	}
 	
 ?>
