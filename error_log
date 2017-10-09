@@ -1,0 +1,5 @@
+[06-Sep-2017 13:27:48 UTC] PHP Parse error:  syntax error, unexpected '{' in /home/myprintpanel/public_html/application/controllers/Homepage.php on line 16
+[06-Sep-2017 13:28:10 UTC] PHP Fatal error:  Call to a member function userdata() on null in /home/myprintpanel/public_html/application/controllers/Homepage.php on line 8
+[06-Sep-2017 13:29:03 UTC] PHP Fatal error:  Call to undefined function redirect() in /home/myprintpanel/public_html/application/controllers/Homepage.php on line 17
+[06-Sep-2017 17:15:04 UTC] PHP Fatal error:  Call to a member function set_rules() on null in /home/myprintpanel/public_html/application/controllers/Accounts.php on line 19
+[07-Sep-2017 14:54:04 UTC] PHP Fatal error:  Call to undefined function crypto_rand_secure() in /home/myprintpanel/public_html/application/models/Accounts_Model.php on line 47

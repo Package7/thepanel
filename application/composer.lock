@@ -1,0 +1,199 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "148fb9ce4cd3ce322574aa353f12633c",
+    "content-hash": "a8ed146d11f97ea33fff1191e6761faa",
+    "packages": [
+        {
+            "name": "activecollab/activecollab-feather-sdk",
+            "version": "3.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/activecollab/activecollab-feather-sdk.git",
+                "reference": "266304812a25385991e696ce04bb3ce6e3ad3cfe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/activecollab/activecollab-feather-sdk/zipball/266304812a25385991e696ce04bb3ce6e3ad3cfe",
+                "reference": "266304812a25385991e696ce04bb3ce6e3ad3cfe",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.6.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "~1.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ActiveCollab\\SDK\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ilija Studen",
+                    "email": "ilija.studen@gmail.com"
+                }
+            ],
+            "description": "This is a simple PHP library that makes communication with Active Collab API easy",
+            "homepage": "https://github.com/activecollab/activecollab-feather-sdk",
+            "keywords": [
+                "activecollab",
+                "api",
+                "sdk"
+            ],
+            "time": "2017-05-10 09:18:55"
+        },
+        {
+            "name": "drewm/mailchimp-api",
+            "version": "v2.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/drewm/mailchimp-api.git",
+                "reference": "fe480bb652f85270227bf6d639b0026a531f21fc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/drewm/mailchimp-api/zipball/fe480bb652f85270227bf6d639b0026a531f21fc",
+                "reference": "fe480bb652f85270227bf6d639b0026a531f21fc",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.0.*",
+                "vlucas/phpdotenv": "^2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "DrewM\\MailChimp\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Drew McLellan",
+                    "email": "drew.mclellan@gmail.com",
+                    "homepage": "http://allinthehead.com/"
+                }
+            ],
+            "description": "Super-simple, minimum abstraction MailChimp API v3 wrapper",
+            "homepage": "https://github.com/drewm/mailchimp-api",
+            "time": "2017-02-16 13:24:20"
+        },
+        {
+            "name": "mandrill/mandrill",
+            "version": "1.0.55",
+            "source": {
+                "type": "git",
+                "url": "https://bitbucket.org/mailchimp/mandrill-api-php.git",
+                "reference": "da3adc10042eafac2e53de141b358a52b8e53596"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://bitbucket.org/mailchimp/mandrill-api-php/get/da3adc10042eafac2e53de141b358a52b8e53596.zip",
+                "reference": "da3adc10042eafac2e53de141b358a52b8e53596",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Mandrill": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Mandrill Devs",
+                    "email": "community@mandrill.com",
+                    "homepage": "http://mandrill.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "API client library for the Mandrill email as a service platform",
+            "homepage": "https://bitbucket.org/mailchimp/mandrill-api-php",
+            "keywords": [
+                "api",
+                "email"
+            ],
+            "time": "2015-09-22 13:58:03"
+        }
+    ],
+    "packages-dev": [
+        {
+            "name": "textmagic/sdk",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/textmagic/textmagic-rest-php.git",
+                "reference": "b81cd04df7ab6fd21f0ddd75bf987cf3f65fe9c6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/textmagic/textmagic-rest-php/zipball/b81cd04df7ab6fd21f0ddd75bf987cf3f65fe9c6",
+                "reference": "b81cd04df7ab6fd21f0ddd75bf987cf3f65fe9c6",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.5.*"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "Services/TextmagicRestClient.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Denis",
+                    "email": "denis@textmagic.com"
+                }
+            ],
+            "description": "A PHP wrapper for Textmagic API",
+            "homepage": "http://github.com/textmagic/textmagic-rest-php",
+            "keywords": [
+                "api",
+                "sms",
+                "textmagic"
+            ],
+            "time": "2015-10-26 14:22:41"
+        }
+    ],
+    "aliases": [],
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "textmagic/sdk": 20
+    },
+    "prefer-stable": true,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}

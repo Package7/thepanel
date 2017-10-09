@@ -1,0 +1,104 @@
+/*! Place your custom styles here */
+
+.mandatory {
+	color: #FF0000;
+	font-weight: bold;
+}
+
+.btn-toolbar {
+	margin-bottom: 25px;
+}
+
+.empty_page {
+  text-align: center;
+  max-width: 480px;
+  margin: 0px auto;
+}
+.empty_page .empty_page_image {
+  display: block;
+  margin: 0px auto;
+  width: 250px;
+  height: 180px;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 250px 180px;
+}
+.empty_page .empty_page_content {
+  border-top: 1px solid #36BA82;
+  margin-top: 20px;
+  font-size: 16px;
+  color: #888;
+  line-height: 24px;
+  padding: 16px 0px;
+}
+.empty_page .empty_page_link {
+  font-size: 12px;
+}
+.empty_page .empty_page_link a {
+  color: #888;
+}
+.empty_page.arrow_mode {
+  position: absolute;
+  margin: 0px;
+  text-align: left;
+  min-height: 110px;
+  padding-top: 65px;
+  padding-left: 110px;
+  width: 650px;
+  max-width: 650px;
+  left: 45px;
+  top: -25px;
+}
+.empty_page.arrow_mode .empty_page_image {
+  width: 120px;
+  height: 110px;
+  background-size: 120px 110px;
+  background-image: url(//cdn.activecollab.com/feather/5.13.79/assets/system/images/layout/arrow_empty_page.png);
+  margin: 0px;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+}
+.empty_page.arrow_mode .empty_page_content {
+  border-top: 0px;
+  padding: 0px;
+  margin-top: 7px;
+  color: #222;
+  background: #FFF699;
+  display: inline-block;
+}
+.empty_page.arrow_mode .empty_page_link {
+  margin-top: 5px;
+}
+.empty_page.archive .empty_page_image {
+  background-image: url(//cdn.activecollab.com/feather/5.13.79/assets/environment/images/layout/archive_empty_page.png);
+}
+@media only screen and (max-device-width : 480px) {
+  .empty_page {
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+  .empty_page.arrow_mode {
+    left: 0px;
+    top: 0px;
+    padding: 0px 15px;
+    width: 100%;
+  }
+  .empty_page.arrow_mode .empty_page_image {
+    display: none;
+  }
+}
+
+#project_files .empty_page .empty_page_image {
+  background-image: url(//cdn.activecollab.com/feather/5.13.79/assets/files/images/layout/files_empty_page.png);
+}
+
+#project_notes .empty_page .empty_page_image {
+  background-image: url(//cdn.activecollab.com/feather/5.13.79/assets/notes/images/layout/notes_empty_page.png);
+}
+
+#project_notes .project_note {
+	background-color: #ffface;
+}
+
+  .be-top-header .navbar-header .navbar-brand { background-size: contain !important; width: 230px !important; background-position: center center !important;}
