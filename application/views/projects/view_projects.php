@@ -31,10 +31,6 @@
 					}
 					
 				?>
-				<a href="#" data-toggle="modal" data-target="#form-bp1" class="btn btn-success pull-left"><span class="mdi mdi-plus-square"></span> Add project</a>
-				  <select id="client_id" class="form-control input-xs pull-right">
-					<option value="0">sort by</option>
-				</select>
                   </div>
                 </div>
                 <div class="panel-body">

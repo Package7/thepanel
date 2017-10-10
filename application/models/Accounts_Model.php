@@ -3,10 +3,33 @@
 	class Accounts_Model extends CI_Model
 	{
 		public $_LastAccountId = NULL;
+		public $_Results = NULL;
 		
 		public function __construct()
 		{
 			parent::__construct();
+		}
+		
+		public function get_accounts()
+		{
+			try
+			{
+				$query = $this->db->query("SELECT * FROM accounts AS t1 LEFT JOIN accounts_groups AS t2 ON t2.account_group_id=t1.account_group_id ORDER BY t1.account_created DESC");
+				
+				if($query->num_rows() == 0)
+				{
+					return false;
+				}
+				else
+				{
+					$this->_Result = $query->result_array();
+					return $query->result_array();
+				}
+			}
+			catch(Exception $ex)
+			{
+				return false;
+			}
 		}
 		
 		public function get_account($account_id)

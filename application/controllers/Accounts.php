@@ -7,7 +7,19 @@
 		public function __construct()
 		{
 			parent::__construct();
+			
 			$this->load->model('Accounts_Model');
+		}
+		
+		public function index()
+		{
+			$data = array
+			(
+				'webpage_title'	=>	'Accounts',
+				'accounts'	=>	$this->Accounts_Model->get_accounts()
+			);
+			
+			$this->load->template('accounts/view_accounts', $data);
 		}
 		
 		public function login_page()

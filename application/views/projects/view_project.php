@@ -18,48 +18,6 @@
       <div class="be-content">
 
        <div class="main-content container-fluid">
-	   <div class="row">
-            <div class="col-xs-12 col-md-6 col-lg-3">
-                        <div class="widget widget-tile">
-                          <div id="spark1" class="chart sparkline"><canvas width="85" height="35" style="display: inline-block; width: 85px; height: 35px; vertical-align: top;"></canvas></div>
-                          <div class="data-info">
-                            <div class="desc">Milestones</div>
-                            <div class="value"><span class="indicator indicator-equal mdi mdi-chevron-right"></span><span data-toggle="counter" data-end="113" class="number">0/0</span>
-                            </div>
-                          </div>
-                        </div>
-            </div>
-            <div class="col-xs-12 col-md-6 col-lg-3">
-                        <div class="widget widget-tile">
-                          <div id="spark2" class="chart sparkline"><canvas width="81" height="35" style="display: inline-block; width: 81px; height: 35px; vertical-align: top;"></canvas></div>
-                          <div class="data-info">
-                            <div class="desc">Projects</div>
-                            <div class="value"><span class="indicator indicator-positive mdi mdi-chevron-up"></span><span data-toggle="counter" data-end="80" data-suffix="%" class="number">80%</span>
-                            </div>
-                          </div>
-                        </div>
-            </div>
-            <div class="col-xs-12 col-md-6 col-lg-3">
-                        <div class="widget widget-tile">
-                          <div id="spark3" class="chart sparkline"><canvas width="85" height="35" style="display: inline-block; width: 85px; height: 35px; vertical-align: top;"></canvas></div>
-                          <div class="data-info">
-                            <div class="desc">Performance index</div>
-                            <div class="value"><span class="indicator indicator-positive mdi mdi-chevron-up"></span><span data-toggle="counter" data-end="532" class="number">532</span>
-                            </div>
-                          </div>
-                        </div>
-            </div>
-            <div class="col-xs-12 col-md-6 col-lg-3">
-                        <div class="widget widget-tile">
-                          <div id="spark4" class="chart sparkline"><canvas width="85" height="35" style="display: inline-block; width: 85px; height: 35px; vertical-align: top;"></canvas></div>
-                          <div class="data-info">
-                            <div class="desc">Time management</div>
-                            <div class="value"><span class="indicator indicator-negative mdi mdi-chevron-down"></span><span data-toggle="counter" data-end="113" class="number">113</span>
-                            </div>
-                          </div>
-                        </div>
-            </div>
-          </div>
           <div class="row">
             <!--Responsive table-->
             <div class="col-sm-8">
@@ -80,7 +38,7 @@
                     <li><a href="#activity" data-toggle="tab">Activity</a></li>
                   </ul>
                   <div class="tab-content">
-                    <div id="tasks" class="tab-pane active cont">
+                    <div id="tasks" class="tab-pane active cont" style="margin: -20px;">
 					
 				  
                 
@@ -90,7 +48,8 @@
 						<thead>
 							<th>&nbsp;</th>
 							<th>Name</th>
-							<th>Asignee</th>
+							<th>Status</th>
+							<th>Assigned</th>
 						</thead>
 						<tbody id="sortable">
 						<?php
@@ -106,6 +65,12 @@
 									<label for="check1">' . $project_task['project_task_name'] . '</label>
 								</div>
 							</td>
+							<td class="milestone">
+								<span class="completed">45%</span><span class="version">Completed</span>
+								<div class="progress">
+									<div style="width: 45%" class="progress-bar progress-bar-primary"></div>
+								</div>
+                          </td>
 							<td align="center" width="1"><img src="' . get_avatar($project_task['asignee_id']) . '" class="img-circle" style="height: 35px;" title="' . $project_task['account_fname'] . ' ' . $project_task['account_lname'] . '"></td>
 						</tr>';
 						}
@@ -198,7 +163,9 @@
                 <div class="panel-body">
                   <!--<div class="table-responsive noSwipe"> / enable responsivness -->
                   <div>
-                    
+                    <div align="center" style="height: 300px;">
+						<a href="#" class="btn btn-success" style="vertical-align: middle">Add team member</a>
+					</div>
                   </div>
                 </div>
               </div>

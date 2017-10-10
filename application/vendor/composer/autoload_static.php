@@ -11,6 +11,10 @@ class ComposerStaticInit6e72dccf967b384280ef1e488a91880a
     );
 
     public static $prefixLengthsPsr4 = array (
+        'S' => 
+        array (
+            'Stripe\\' => 7,
+        ),
         'D' => 
         array (
             'DrewM\\MailChimp\\' => 16,
@@ -22,6 +26,10 @@ class ComposerStaticInit6e72dccf967b384280ef1e488a91880a
     );
 
     public static $prefixDirsPsr4 = array (
+        'Stripe\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/stripe/stripe-php/lib',
+        ),
         'DrewM\\MailChimp\\' => 
         array (
             0 => __DIR__ . '/..' . '/drewm/mailchimp-api/src',

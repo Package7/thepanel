@@ -4,7 +4,8 @@
     "require": {
         "drewm/mailchimp-api": "^2.4",
         "mandrill/mandrill": "^1.0",
-		"activecollab/activecollab-feather-sdk": "^3.1"
+		"activecollab/activecollab-feather-sdk": "^3.1",
+		"stripe/stripe-php": "^5.2"
     },
 	"require-dev": {
 		"textmagic/sdk": "dev-master"
