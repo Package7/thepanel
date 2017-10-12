@@ -63,6 +63,10 @@ $route['projects/view/([A-Z0-9])/([A-Z0-9])'] = 'Projects/view_project_task/$1/$
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 $route['knowledge-base'] = 'Knowledge_Base/index';
+/*
+| ACCOUNTS
+*/
+$route['accounts/view/(:any)'] = 'accounts/view_account/$1';
 
 /*
 | CLIENTS

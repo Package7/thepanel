@@ -1,12 +1,28 @@
 var App = (function () {
 	'use strict';
 
-	App.formEditable = function( ){
+	App.formEditable = function(url = null){
 		//toggle `popup` / `inline` mode
 		$.fn.editable.defaults.mode = 'popup';     
 		
 		//make username editable
-		$('#username').editable();
+		$('#username2').editable(
+		{
+			
+		   ajaxOptions:{
+				type: 'POST',
+				url: 'http://thepanel.package7.com/accounts/edit_account',
+				data: $('form#add_project').serialize(),
+				dataType: 'html',
+				success: function(data)
+				{
+					alert(data);
+				}
+		   } ,
+		   success: function(data) {
+			console.log(data);
+		  }
+      });
 		
 		//make username editable
 		$('#firstname').editable({

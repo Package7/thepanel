@@ -165,7 +165,9 @@
 			$data = array
 			(
 				'task' => $this->Projects_Model->get_project_task($project_id, $project_task_id),
-				'comments' => $this->Projects_Model->get_project_task_comments($project_task_id)
+				'comments' => $this->Projects_Model->get_project_task_comments($project_task_id),
+				'assignees' => $this->Projects_Model->get_available_assignees(),
+				'statuses' => $this->Projects_Model->get_project_task_statuses()
 			);
 			
 			$this->load->template('projects/view_project_task', $data);
@@ -250,6 +252,36 @@
 				$this->Projects_Model->add_project_task_comment($data);
 			}
 			
+		}
+		
+		/* TASKS */
+		
+		public function update_project_task($project_task_id)
+		{
+			$project_task_data = array
+			(
+				'assignee_id' => $this->input->post('assignee_id'),
+				'project_task_status_id' => $this->input->post('project_task_status_id'),
+				'project_task_completion' => $this->input->post('project_task_completion')
+			);
+			
+			if($this->Projects_Model->update_project_task($project_task_data, $project_task_id)==true)
+			{
+				$response = array
+				(
+					'status' => 200
+				);
+			}
+			else
+			{
+				$response = array
+				(
+					'status' => 400
+				);
+			}
+					
+			header('Content-Type: application/json');
+			echo json_encode($response);
 		}
 	}
 	

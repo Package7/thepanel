@@ -259,7 +259,7 @@
 		public function get_project_tasks($project_id)
 		{
 			try {
-				$query = $this->db->query("SELECT * FROM projects_tasks AS t1 LEFT JOIN accounts AS t2 ON t2.account_id=t1.asignee_id WHERE project_id='$project_id' ORDER BY project_task_created DESC")->result_array();
+				$query = $this->db->query("SELECT * FROM projects_tasks AS t1 LEFT JOIN accounts AS t2 ON t2.account_id=t1.assignee_id WHERE project_id='$project_id' ORDER BY project_task_created DESC")->result_array();
 			} catch(Exception $e) {
 			}
 			
@@ -279,6 +279,26 @@
 				else
 				{
 					return false;
+				}
+			}
+			catch(Exception $e)
+			{
+			}
+		}
+		
+		public function get_project_task_statuses()
+		{
+			try 
+			{
+				$query = $this->db->select('*')->from('projects_tasks_statuses')->get();
+			
+				if($query->num_rows()==0)
+				{
+					return false;
+				}
+				else
+				{
+					return $query->result_array();
 				}
 			}
 			catch(Exception $e)
@@ -372,7 +392,7 @@
 			}
 		}
 		
-		public function get_asignee($project_task_id)
+		public function get_assignee($project_task_id)
 		{
 			try {
 				$query = $this->db->query("SELECT * FROM projects_tasks AS t1 LEFT JOIN accounts AS t2 ON t2.account_id=t1.account_id");
@@ -388,6 +408,27 @@
 			}
 			catch(Exception $e)
 			{
+			}
+		}
+		
+		public function get_available_assignees()
+		{
+			try
+			{
+				$query = $this->db->query("SELECT * FROM accounts WHERE account_group_id = 2");
+				
+				if($query->num_rows() == 0)
+				{
+					return false;
+				}
+				else
+				{
+					return $query->result_array();
+				}
+			}
+			catch(Exception $ex)
+			{
+				return false;
 			}
 		}
 	}

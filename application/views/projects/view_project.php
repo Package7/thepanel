@@ -59,19 +59,14 @@
 						echo '
 						<tr id="view_project_task" data-toggle="modal" data-target="#view_project_task_modal"  href="' . base_url('projects/view_project_task/' . $project_task['project_id'] . '/' . $project_task['project_task_id']) . '">
 							<td width="1"><span class="mdi mdi-more-vert" style="cursor: move;"></span></td>
-							<td>
-								<div class="be-checkbox">
-									<input id="check1" value="' . $project_task['project_task_id'] . '" type="checkbox">
-									<label for="check1">' . $project_task['project_task_name'] . '</label>
-								</div>
-							</td>
+							<td>' . $project_task['project_task_name'] . '</td>
 							<td class="milestone">
-								<span class="completed">45%</span><span class="version">Completed</span>
+								<span class="completed">' . is_numeric_null($project_task['project_task_completion']) . '%</span><span class="version">Completed</span>
 								<div class="progress">
-									<div style="width: 45%" class="progress-bar progress-bar-primary"></div>
+									<div style="width: ' . is_numeric_null($project_task['project_task_completion']) . '%" class="progress-bar progress-bar-primary"></div>
 								</div>
                           </td>
-							<td align="center" width="1"><img src="' . get_avatar($project_task['asignee_id']) . '" class="img-circle" style="height: 35px;" title="' . $project_task['account_fname'] . ' ' . $project_task['account_lname'] . '"></td>
+							<td align="center" width="1"><img src="' . get_avatar($project_task['assignee_id']) . '" class="img-circle" style="height: 35px;" title="' . $project_task['account_fname'] . ' ' . $project_task['account_lname'] . '"></td>
 						</tr>';
 						}
 
@@ -236,7 +231,7 @@
 	<!-- Add project modal start -->
 	<div id="view_project_task_modal" tabindex="-1" role="dialog" class="modal fade colored-header colored-header-primary">
       <div class="modal-dialog modal-lg">
-        <div class="modal-content">
+        <div class="modal-content" style="max-width: 800px;">
 			<!-- loading -->
         </div>
       </div>

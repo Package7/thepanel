@@ -27,7 +27,7 @@
 				  
 					if($this->session->userdata('account_isadmin')==1)
 					{
-						echo '<a href="#" data-toggle="modal" data-target="#form-bp1" class="btn btn-success"><span class="mdi mdi-plus-square"></span> Add project</a> ';
+						echo '<a href="#" data-toggle="modal" data-target="#form-bp1" class="btn btn-success"><span class="mdi mdi-plus-square"></span> Project</a> ';
 					}
 					
 				?>

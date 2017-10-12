@@ -22,19 +22,26 @@
 			$this->load->template('accounts/view_accounts', $data);
 		}
 		
+		public function view_account($account_id)
+		{
+			$this->load->model('Permissions_Model'); 
+			$account = $this->Accounts_Model->get_account($account_id);
+			$permissions = $this->Permissions_Model->get_roles_categories();
+			
+			$data = array
+			(
+				'webpage_title' => 'Name',
+				'account'	=>	$account,
+				'permissions'	=>	$permissions
+			);
+			
+			$this->load->template('accounts/view_account', $data);
+		}
+		
+		
+		
 		public function login_page()
 		{
-			// $MailChimp = new MailChimp('a1d719672e086bef83555e8f42d03403-us16');
-			
-			// $result = $MailChimp->post('lists/' . $this->default_mailchimp_list . '/members', [
-				// 'email_address' => 'george@gritnet.uk',
-				// 'status'        => 'subscribed',
-			// ]);
-			
-			// echo '<pre>';
-			// print_r($result);
-			// echo '</pre>';
-			
 			$this->form_validation->set_rules('login_email', 'Email', 'required|valid_email');
 			$this->form_validation->set_rules('login_password', 'Password', 'required|callback_valid_account');
 			
@@ -206,6 +213,11 @@
 		public function forgot_password()
 		{
 			$this->load->template('accounts/forgot_password');
+		}
+		
+		public function edit_account()
+		{
+			echo 'edit account';
 		}
 	}
 	

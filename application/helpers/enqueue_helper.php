@@ -44,7 +44,10 @@
 		(
 			'perfect-scrollbar'			=>	'lib/perfect-scrollbar/css/perfect-scrollbar.min',
 			'iconic-font'	=>	'lib/material-design-icons/css/material-design-iconic-font.min',
-			'customer-portal'		=>	'css/style'
+			'customer-portal'		=>	'css/style',
+			'bootstrap-editable'	=>	'lib/x-editable/bootstrap3-editable/css/bootstrap-editable',
+			'typeahead' => 'lib/x-editable/inputs-ext/typeaheadjs/lib/typeahead.js-bootstrap',
+			'select2' => 'lib/select2/css/select2.min'
 		);
 		
 		foreach($styles as $file=>$path)
@@ -101,11 +104,18 @@
 		
 		$scripts = array
 		(
-			'jquery'			=>	'lib/jquery/jquery.min',
-			'perfect-scrollbar'	=>	'lib/perfect-scrollbar/js/perfect-scrollbar.jquery.min',
-			'myprintpanel'		=>	'js/main',
-			'bootstrap'			=>	'lib/bootstrap/dist/js/bootstrap.min',
-			'parsley'			=>	'lib/parsley/parsley.min'
+			'jquery'				=>	'lib/jquery/jquery.min',
+			'perfect-scrollbar'		=>	'lib/perfect-scrollbar/js/perfect-scrollbar.jquery.min',
+			'myprintpanel'			=>	'js/main',
+			'bootstrap'				=>	'lib/bootstrap/dist/js/bootstrap.min',
+			'parsley'				=>	'lib/parsley/parsley.min',
+			'bootstrap-editable'	=>	'lib/x-editable/bootstrap3-editable/js/bootstrap-editable.min',
+			'typeaheadjs'			=>	'lib/x-editable/inputs-ext/typeaheadjs/typeaheadjs',
+			'xtypehead'				=>	'lib/x-editable/inputs-ext/typeaheadjs/lib/typeahead',
+			'moment'				=>	'lib/moment.js/min/moment.min',
+			'select2'				=>	'lib/select2/js/select2.min',
+			'select2-full'			=>	'lib/select2/js/select2.full.min',
+			'form-editable'			=>	'js/app-form-editable'
 		);
 		
 		foreach($scripts as $file=>$path)
