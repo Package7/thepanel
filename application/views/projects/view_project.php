@@ -57,7 +57,7 @@
 						foreach($project_tasks as $project_task)
 						{
 						echo '
-						<tr id="view_project_task" data-task-id="project_task_' . $project_task['project_task_id'] . '" data-toggle="modal" data-target="#view_project_task_modal"  href="' . base_url('projects/view_project_task/' . $project_task['project_id'] . '/' . $project_task['project_task_id']) . '">
+						<tr id="view_project_task" data-task-id="project_task_' . $project_task['project_task_id'] . '" data-toggle="modal" data-target="#view_project_task_modal" class="clickable-table-row"  href="' . base_url('projects/view_project_task/' . $project_task['project_id'] . '/' . $project_task['project_task_id']) . '">
 							<td width="1"><span class="mdi mdi-more-vert" style="cursor: move;"></span></td>
 							<td>' . $project_task['project_task_name'] . '</td>
 							<td class="milestone">

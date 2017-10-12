@@ -5,6 +5,11 @@
 	font-weight: bold;
 }
 
+.clickable-table-row {
+    cursor: pointer;
+    cursor: hand;
+}
+
 .btn-toolbar {
 	margin-bottom: 25px;
 }

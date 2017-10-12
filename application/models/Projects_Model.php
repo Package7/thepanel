@@ -1,6 +1,15 @@
 <?php
 
 	defined('BASEPATH') OR exit('No direct script access allowed');
+	
+	/*
+	| This model contains the following methods:
+	|
+	| 1. Projects
+	| 1.1. get_projects() - gets all the projects from the db and returns them as an array
+	| 1.2. get_project($project_id) - gets single project by id from db and returns an array
+	|
+	|*/
 
 	class Projects_Model extends CI_Model
 	{
