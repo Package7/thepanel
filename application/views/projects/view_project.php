@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="shortcut icon" href="<?php echo base_url('public/img'); ?>/logo-fav.png">
-    <title><?= get_website_title('Clients'); ?></title>
-    <?= global_load_styles(); ?>
-	 <link rel="stylesheet" type="text/css" href="<?= base_url('public/lib/summernote/summernote.css'); ?>"/>
-  </head>
-  <body>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<link rel="shortcut icon" href="<?php echo base_url('public/img'); ?>/logo-fav.png">
+		<title><?= get_website_title($project['project_name']); ?></title>
+		<?= global_load_styles(); ?>
+		<link rel="stylesheet" type="text/css" href="<?= base_url('public/lib/summernote/summernote.css'); ?>"/>
+	</head>
+	<body>
     <div class="be-wrapper">
       <?php echo $header; ?>
       <?php echo $sidebar; ?>
@@ -41,7 +41,7 @@
                     <div id="tasks" class="tab-pane active cont" style="margin: -20px;">
 					
 				  
-                
+                <div id="debug"></div>
 				
                 <div class="panel-body">
 					<table class="table table-striped">
@@ -51,13 +51,13 @@
 							<th>Status</th>
 							<th>Assigned</th>
 						</thead>
-						<tbody id="sortable">
+						<tbody id="projects_tasks">
 						<?php
 
 						foreach($project_tasks as $project_task)
 						{
 						echo '
-						<tr id="view_project_task" data-toggle="modal" data-target="#view_project_task_modal"  href="' . base_url('projects/view_project_task/' . $project_task['project_id'] . '/' . $project_task['project_task_id']) . '">
+						<tr id="view_project_task" data-task-id="project_task_' . $project_task['project_task_id'] . '" data-toggle="modal" data-target="#view_project_task_modal"  href="' . base_url('projects/view_project_task/' . $project_task['project_id'] . '/' . $project_task['project_task_id']) . '">
 							<td width="1"><span class="mdi mdi-more-vert" style="cursor: move;"></span></td>
 							<td>' . $project_task['project_task_name'] . '</td>
 							<td class="milestone">
@@ -298,16 +298,14 @@
     <script src="<?= base_url('public/lib/summernote/summernote.min.js'); ?>" type="text/javascript"></script>
     <script src="<?= base_url('public/lib/summernote/summernote-ext-beagle.js'); ?>" type="text/javascript"></script>
     <script src="<?= base_url('public/js/app-form-wysiwyg.js'); ?>" type="text/javascript"></script>
+    <script src="<?= base_url('public/js/app-projects.js'); ?>" type="text/javascript"></script>
     <script type="text/javascript">
       $(document).ready(function(){
       	//initialize the javascript
       	App.init();
 		
       	App.textEditors();
-		
-		$( "#sortable" ).sortable({
-      placeholder: "ui-state-highlight"
-    });
+		App.projects('<?= base_url(); ?>');
 	
 		$('tr#view_project_task').click(function(event)
 		{
@@ -378,30 +376,6 @@
 				}
 			});
 		});
-		
-		
-		
-		
-		// $('a#add_project_milestone').on('click', function(event)
-		// {
-			// $('ul#projects_milestones').append('<li class="dd-item"><form id="add_project_milestone"><input type="text" placeholder="Milestone" name="project_milestone_name" id="project_milestone_name" class="form-control"/><input type="submit" id="submit-btn" value="Add milestone" class="btn btn-success"/></form></li>');
-		// });
-		
-		// $(document).on('submit', 'form#add_project_milestone', function(event)
-		// {
-			// event.preventDefault();
-			// $.ajax(
-			// {
-				// type: 'POST',
-				// url: '<?= base_url('projects/add_project_milestone'); ?>',
-				// data: $('form#add_project_milestone').serialize(),
-				// dataType: 'html',
-				// success: function(data)
-				// {
-					// alert(data);
-				// }
-			// });
-		// });
       });
     </script>
 	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>

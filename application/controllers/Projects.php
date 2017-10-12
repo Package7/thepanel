@@ -283,6 +283,17 @@
 			header('Content-Type: application/json');
 			echo json_encode($response);
 		}
+		
+		public function sort_project_tasks()
+		{
+			$i = 1;
+			
+			foreach($this->input->post('project_task') as $position => $project_task_id)
+			{
+				$this->Projects_Model->sort_projects_tasks($i, $project_task_id);
+				$i++;
+			}
+		}
 	}
 	
 ?>

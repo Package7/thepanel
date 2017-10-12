@@ -5,6 +5,8 @@
 	class Projects_Model extends CI_Model
 	{
 		public $_LastId = NULL;
+		public $message;
+		public $error;
 		
 		public function __construct()
 		{
@@ -13,7 +15,8 @@
 		
 		
 		/* 
-		* 
+		* @return bool
+		* @author George Dobre
 		*/
 		
 		public function add_project($data)
@@ -67,6 +70,10 @@
 			{
 				throw new Exception($ex->getMessage());
 			}
+		}
+		
+		public function delete_project($project_id)
+		{
 		}
 		
 		public function get_client_id($account_id)
@@ -259,7 +266,7 @@
 		public function get_project_tasks($project_id)
 		{
 			try {
-				$query = $this->db->query("SELECT * FROM projects_tasks AS t1 LEFT JOIN accounts AS t2 ON t2.account_id=t1.assignee_id WHERE project_id='$project_id' ORDER BY project_task_created DESC")->result_array();
+				$query = $this->db->query("SELECT * FROM projects_tasks AS t1 LEFT JOIN accounts AS t2 ON t2.account_id=t1.assignee_id WHERE project_id='$project_id' ORDER BY project_task_position ASC")->result_array();
 			} catch(Exception $e) {
 			}
 			
@@ -346,6 +353,20 @@
 			catch(Exception $ex)
 			{
 				throw new Exception($ex->getMessage());
+			}
+		}
+		
+		public function sort_projects_tasks($project_task_position, $project_task_id)
+		{
+			$query = $this->db->where('project_task_id', $project_task_id)->update('projects_tasks', array('project_task_position' => $project_task_position));
+			
+			if($this->db->affected_rows() == 0)
+			{
+				return false;
+			}
+			else
+			{
+				return true;
 			}
 		}
 		
