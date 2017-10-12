@@ -2,12 +2,36 @@
 
 	class Emails_Model extends CI_Model
 	{
-		private $Mandrill_ApiKey = '';
+		private $Mandrill_ApiKey = '9GsiyTScJIMKu2CeBpELmg';
 		private $Mailchimp_ApiKey = '';
+		private $Mandrill = NULL;
 		
 		public function __construct()
 		{
 			parent::__construct();
+			$this->Mandrill = new Mandrill($this->Mandrill_ApiKey);
+		}
+		
+		public function send_template($to, $merge_vars = array())
+		{
+			$message = array
+			(
+				'html' => '<p>Example HTML content</p>',
+				'text' => 'Example text content',
+				'subject' => 'example subject',
+				'from_email' => 'office@myprintpanel.com',
+				'from_name' => 'MyPrintPanel',
+				'to' => array
+				(
+					array
+					(
+						'email' => $email,
+						'name' => 'George Dobre',
+						'type' => 'to'
+					)
+				),
+				'headers' => array('Reply-To' => 'office@myprintpanel.com'),
+			)
 		}
 		
 		public function send_activation_code($email, $code)

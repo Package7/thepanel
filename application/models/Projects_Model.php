@@ -6,8 +6,9 @@
 	| This model contains the following methods:
 	|
 	| 1. Projects
-	| 1.1. get_projects() - gets all the projects from the db and returns them as an array
-	| 1.2. get_project($project_id) - gets single project by id from db and returns an array
+	| 	1.1. get_projects() - gets all the projects from the db and returns them as an array
+	| 	1.2. get_project($project_id) - gets single project by id from db and returns an array
+	|	1.3.
 	|
 	|*/
 
@@ -348,7 +349,7 @@
 		{
 			try
 			{
-				$query = $this->db->query("SELECT * FROM projects_tasks_comments AS t1 LEFT JOIN projects_tasks AS t2 ON t2.project_task_id=t1.project_task_id LEFT JOIN accounts AS t3 ON t3.account_id=t1.account_id WHERE t1.project_task_id='$project_task_id' ORDER BY project_task_comment_created DESC");
+				$query = $this->db->query("SELECT *, DATE_FORMAT(project_task_comment_created, '%d/%m/%Y at %H:%i') AS project_task_comment_created FROM projects_tasks_comments AS t1 LEFT JOIN projects_tasks AS t2 ON t2.project_task_id=t1.project_task_id LEFT JOIN accounts AS t3 ON t3.account_id=t1.account_id WHERE t1.project_task_id='$project_task_id' ORDER BY project_task_comment_created DESC");
 				
 				if($query->num_rows()==0)
 				{

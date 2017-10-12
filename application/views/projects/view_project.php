@@ -307,12 +307,7 @@
       	App.textEditors();
 		App.projects('<?= base_url(); ?>');
 	
-		$('tr#view_project_task').click(function(event)
-		{
-			event.preventDefault();
-			var url = $(this).attr('href');
-			$('div#view_project_task_modal .modal-content').load(url);
-		});
+		
 		
 		$('button#add_project_note').click(function(event)
 		{

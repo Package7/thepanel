@@ -26,6 +26,31 @@ var App = (function ()
 				});
 			}
 		});
+		
+		/* Open task in modal */
+		
+		$('tr#view_project_task').click(function(event)
+		{
+			event.preventDefault();
+			var url = $(this).attr('href');
+			$('div#view_project_task_modal .modal-content').html('');
+			$('div#view_project_task_modal .modal-content').load(url);
+		});
+		
+		/* Task comment WYSIWYG editor */
+		
+		$('div#project_task_comment_content').summernote(
+		{
+			toolbar: 
+			[
+				['style', ['bold', 'italic', 'underline', 'clear']],
+				['font', ['strikethrough', 'superscript', 'subscript']],
+				['fontsize', ['fontsize']],
+				['color', ['color']],
+				['para', ['ul', 'ol', 'paragraph']]
+			],
+			height: 150
+		});
 	};
 	return App;
 })(App || {});

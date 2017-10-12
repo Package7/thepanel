@@ -77,6 +77,7 @@
 					'account_id' 		=>	$result->account_id,
 					'account_parent' 	=>	$result->account_parent,
 					'account_fname' 	=>	$result->account_fname,
+					'account_lname' 	=>	$result->account_lname,
 					'account_email' 	=>	$result->account_email,
 					'account_phone' 	=>	$result->account_phone,
 					'account_group_id'	=>	$result->account_group_id,
