@@ -133,25 +133,26 @@
 				
 				$data = array
 				(
-					'account_group_id' => get_setting('default_user_group_id'),
-					'account_fname' => $account_fname,
-					'account_lname' => $account_lname,
-					'account_email' => $this->input->post('account_email'),
-					'account_phone' => $account_phone,
-					'account_password' => password_encrypt($this->input->post('account_password')),
-					'account_code'	=>	$account_code,
-					'account_avatar'	=>	$this->Accounts_Model->get_random_avatar(),
-					'account_created' => date('Y-m-d H:i:s')
+					'account_group_id' 		=> 	get_setting('default_user_group_id'),
+					'account_fname' 		=> 	$account_fname,
+					'account_lname' 		=> 	$account_lname,
+					'account_email' 		=> 	$this->input->post('account_email'),
+					'account_email_code' 	=> 	$this->Accounts_Model->generate_verification_code(),
+					'account_phone' 		=> 	$account_phone,
+					'account_phone_code' 	=> 	$this->Accounts_Model->generate_verification_code(),
+					'account_password' 		=> 	password_encrypt($this->input->post('account_password')),
+					'account_avatar'		=>	$this->Accounts_Model->get_random_avatar(),
+					'account_created' 		=> 	date('Y-m-d H:i:s')
 				);
 				
 				if($this->Accounts_Model->register_account($data)==true)
 				{
 					// load email model
 					$this->load->model('Emails_Model');
-					$this->Emails_Model->send_activation_code($this->input->post('account_email'), $account_code);
+					$this->Emails_Model->send_activation_code($this->input->post('account_email'), $data['account_email_code']);
 					
 					$this->load->model('SMS_Model');
-					$this->SMS_Model->send_sms($account_phone, $account_code . ' is your MyPrintPanel.com account activation code');
+					$this->SMS_Model->send_sms($account_phone, $data['account_phone_code'] . ' is your MyPrintPanel.com account activation code');
 					
 					redirect('/activate');
 				}

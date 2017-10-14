@@ -70,6 +70,23 @@
 				
 				if($this->Projects_Model->add_project($data)==true)
 				{
+					if($this->Clients_Model->get_accounts($data['client_id'])===true)
+					{
+						$accounts = $this->Clients_Model->result;
+						
+						foreach($accounts as $follower)
+						{
+							$follower_data = array
+							(
+								'project_id'	=>	$this->Projects_Model->_LastId,
+								'account_id'	=>	$follower['account_id'],
+								'project_follower_email_notifications'	=>	1,
+								'project_follower_text_notifications'	=>	0
+							);
+							
+							$this->Projects_Model->add_follower($follower_data);
+						}
+					}
 					$response = array
 					(
 						'status' => 200,
@@ -92,6 +109,8 @@
 			$project_tasks_data = $this->Projects_Model->get_project_tasks($project_id);
 			$project_notes_data = $this->Projects_Model->get_project_notes($project_id);
 			
+			
+			$this->Projects_Model->get_team($project_id);
 			$data = array
 			(
 				'webpage_title' => $project_data['project_name'],
@@ -282,6 +301,19 @@
 					
 			header('Content-Type: application/json');
 			echo json_encode($response);
+		}
+		
+		
+		
+		public function add_project_file()
+		{
+			$options = array
+			(
+				'upload_dir'	=>	base_url('files/'), 
+				'upload_url'	=>	base_url('files/')
+			);
+			
+			$this->load->library('Files_Handler', $options);
 		}
 		
 		public function sort_project_tasks()

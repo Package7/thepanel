@@ -2,6 +2,7 @@
 
 	class Clients_Model extends CI_Model
 	{
+		public $results = null;
 		
 		public function get_clients()
 		{
@@ -10,6 +11,27 @@
 				$query = $query->result_array();
 				return $query;
 			} catch(Exception $ex) {
+			}
+		}
+		
+		public function get_accounts($client_id)
+		{
+			try 
+			{
+				$query->db->query("SELECT account_id FROM accounts WHERE client_id = '$client_id'");
+				
+				if($query->num_rows() == 0)
+				{
+					return false;
+				}
+				else
+				{
+					$this->results = $query->result_array();
+					return true;
+				}
+			}
+			catch(Exception $ex)
+			{
 			}
 		}
 		

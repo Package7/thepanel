@@ -31,7 +31,7 @@
 					)
 				),
 				'headers' => array('Reply-To' => 'office@myprintpanel.com'),
-			)
+			);
 		}
 		
 		public function send_activation_code($email, $code)

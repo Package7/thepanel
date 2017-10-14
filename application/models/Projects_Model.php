@@ -10,6 +10,18 @@
 	| 	1.2. get_project($project_id) - gets single project by id from db and returns an array
 	|	1.3.
 	|
+	| 2. Projects tasks
+	|	2.1. get_tasks
+	|	2.2. get_task
+	|
+	| 4. Projects notes
+	| 4.1. get_project_notes($project_id) - gets all project notes by id
+	| 4.2. get_project_note
+	| 4.3. add_project_note
+	|
+	| 5. Projects team
+	|	5.1. get_team()
+	|
 	|*/
 
 	class Projects_Model extends CI_Model
@@ -209,6 +221,10 @@
 			}
 		}
 		
+		/*
+		| 2.1. get_tasks
+		*/
+		
 		public function get_tasks($project_id)
 		{
 			try
@@ -220,6 +236,14 @@
 			{
 				throw new Exception($ex->getMessage());
 			}
+		}
+		
+		/*
+		| 2.2. get_task
+		*/
+		
+		public function get_task()
+		{
 		}
 		
 		public function add_project_task($data)
@@ -366,24 +390,14 @@
 			}
 		}
 		
-		public function sort_projects_tasks($project_task_position, $project_task_id)
-		{
-			$query = $this->db->where('project_task_id', $project_task_id)->update('projects_tasks', array('project_task_position' => $project_task_position));
-			
-			if($this->db->affected_rows() == 0)
-			{
-				return false;
-			}
-			else
-			{
-				return true;
-			}
-		}
+		/*
+		| 4.1. get_project_notes
+		*/
 		
 		public function get_project_notes($project_id)
 		{
 			try {
-				$query = $this->db->query("SELECT * FROM projects_notes AS t1 LEFT JOIN accounts AS t2 ON t2.account_id=t1.account_id WHERE t1.project_id='$project_id'");
+				$query = $this->db->query("SELECT *, DATE_FORMAT(project_note_created, '%d/%m/%Y at %H:%i') AS project_note_created FROM projects_notes AS t1 LEFT JOIN accounts AS t2 ON t2.account_id=t1.account_id WHERE t1.project_id='$project_id'");
 				
 				if($query->num_rows()==0)
 				{
@@ -399,7 +413,17 @@
 			}
 		}
 		
+		/*
+		| 4.2. get_project_note
+		*/
 		
+		public function get_project_note($project_note_id)
+		{
+		}
+		
+		/*
+		| 4.3. add_project_note
+		*/
 		
 		public function add_project_note($data)
 		{
@@ -420,6 +444,20 @@
 			catch(Exception $ex)
 			{
 				throw new Exception($ex->getMessage());
+			}
+		}
+		
+		public function sort_projects_tasks($project_task_position, $project_task_id)
+		{
+			$query = $this->db->where('project_task_id', $project_task_id)->update('projects_tasks', array('project_task_position' => $project_task_position));
+			
+			if($this->db->affected_rows() == 0)
+			{
+				return false;
+			}
+			else
+			{
+				return true;
 			}
 		}
 		
@@ -460,6 +498,45 @@
 			catch(Exception $ex)
 			{
 				return false;
+			}
+		}
+		
+		/*
+		| 5.1. get_team()
+		*/
+		
+		public function get_team($project_id)
+		{
+			try
+			{
+				$client_id = $this->get_project($project_id)['client_id'];
+				echo '<pre style="margin-top:100px;">';
+				print_r($client_id);
+				echo '</pre>';
+			}
+			catch(Exception $ex)
+			{
+			}
+		}
+		
+		public function add_follower($data)
+		{
+			try 
+			{
+				$query = $this->db->insert('projects_followers', $data);
+				
+				if($this->db->affected_rows() == 0)
+				{
+					return false;
+				}
+				else
+				{
+					return true;
+				}
+			}
+			catch(Exception $ex)
+			{
+				throw new Exception($ex->getMessage());
 			}
 		}
 	}

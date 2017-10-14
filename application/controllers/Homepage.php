@@ -17,31 +17,52 @@
 				}
 			}
 			$this->load->model('Accounts_Model');
+			$this->load->model('Permissions_Model');
 		}
 		
 		public function index()
 		{
-			$data = array('user' => $_SESSION, 'webpage_title' => 'Dashboard');
+			$data['webpage_title'] = 'Dashboard';
 			
-			if($this->session->userdata('isadmin')==0)
+			$this->load->model('Companies_Model');
+			
+			if($this->Permissions_Model->is_admin())
 			{
-				$this->load->model('Clients_Model');
-				$this->load->model('Projects_Model');
-				$projects_data = $this->Projects_Model->get_projects($this->Projects_Model->get_client_id($this->session->userdata('account_id')));
-			
-			
-			$data = array
-			(
-				'webpage_title' => 'Dashboard',
-				'projects' => $projects_data,
-				'clients' => $this->Clients_Model->get_clients()
-			);
-			
-				$this->load->template('projects/view_projects', $data);
+				$this->load->template('dashboard/admin', $data);
 			}
 			else
 			{
-				$this->load->template('homepage', $data);
+				$companies = $this->Companies_Model->get_companies($this->session->userdata('account_id'));
+				
+				if($companies)
+				{
+					$this->load->template('dashboard/client', $data);
+				}
+				else
+				{
+					$this->load->template('companies/add_company', $data);
+				}
+				
+				// echo '<pre style="margin-top: 100px;">';
+				// var_dump($companies);
+				// echo '</pre>';
+			}
+		}
+		
+		public function add_company_process($data)
+		{
+			$this->form_validation->set_rules('company_name', 'Company name', 'required');
+			$this->form_validation->set_rules('company_address', 'Address', 'required');
+			$this->form_validation->set_rules('company_city', 'City', 'required');
+			$this->form_validation->set_rules('company_postcode', 'Postcode', 'required');
+			
+			if ($this->form_validation->run() === false)
+			{	
+				echo 'eroare';
+			}
+			else
+			{
+				echo 'nu eroare';
 			}
 		}
 	}
