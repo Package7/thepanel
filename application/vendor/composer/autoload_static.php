@@ -15,6 +15,10 @@ class ComposerStaticInit6e72dccf967b384280ef1e488a91880a
         array (
             'Stripe\\' => 7,
         ),
+        'P' => 
+        array (
+            'PhpAmqpLib\\' => 11,
+        ),
         'D' => 
         array (
             'DrewM\\MailChimp\\' => 16,
@@ -29,6 +33,10 @@ class ComposerStaticInit6e72dccf967b384280ef1e488a91880a
         'Stripe\\' => 
         array (
             0 => __DIR__ . '/..' . '/stripe/stripe-php/lib',
+        ),
+        'PhpAmqpLib\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/romainrg/codeigniter-php-amqplib/PhpAmqpLib',
         ),
         'DrewM\\MailChimp\\' => 
         array (

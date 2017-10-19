@@ -4,11 +4,14 @@
 	class Accounts extends CI_Controller
 	{
 		public $default_mailchimp_list = '6b72c053d5';
+		
 		public function __construct()
 		{
 			parent::__construct();
 			
 			$this->load->model('Accounts_Model');
+			$this->load->model('Projects_Model');
+			$this->load->model('Companies_Model');
 		}
 		
 		public function index()
@@ -71,22 +74,119 @@
 			}
 			else
 			{
+				$this->Companies_Model->get_companies($result->account_id);
+				
 				$session_array = array
 				(
-					'account_loggedin'	=>	true,
-					'account_id' 		=>	$result->account_id,
-					'account_parent' 	=>	$result->account_parent,
-					'account_fname' 	=>	$result->account_fname,
-					'account_lname' 	=>	$result->account_lname,
-					'account_email' 	=>	$result->account_email,
-					'account_phone' 	=>	$result->account_phone,
-					'account_group_id'	=>	$result->account_group_id,
-					'account_isadmin'	=>	$result->account_isadmin
+					'account_loggedin'		=>	true,
+					'account_id' 			=>	$result->account_id,
+					'account_fname' 		=>	$result->account_fname,
+					'account_lname' 		=>	$result->account_lname,
+					'account_email' 		=>	$result->account_email,
+					'account_phone' 		=>	$result->account_phone,
+					'account_group_id'		=>	$result->account_group_id,
+					'account_isadmin'		=>	$result->account_isadmin,
+					'companies'				=>	$this->Companies_Model->results
 				);
+				
+				if($this->Accounts_Model->get_default_company($result->account_id))
+				{
+					$default_company = $this->Accounts_Model->results;
+					$session_array['company'] = $default_company;
+					
+					if($this->Projects_Model->get_default_project($default_company['company_id']))
+					{
+						$session_array['project'] = $this->Projects_Model->results;
+					}
+				}
 				
 				$this->session->set_userdata($session_array);
 				return true;
 			}
+		}
+		
+		public function create_account()
+		{
+			$this->form_validation->set_rules('account_name', 'Full name', 'required');
+			$this->form_validation->set_rules('account_phone', 'Phone', 'required|is_unique[accounts.account_phone]|regex_match[/^[0-9]{11}$/]');
+			$this->form_validation->set_rules('account_email', 'Email', 'required|valid_email|is_unique[accounts.account_email]');
+			$this->form_validation->set_rules('account_password', 'Password', 'required');
+			$this->form_validation->set_rules('account_password_confirm', 'Confirm Password', 'required|matches[account_password]');
+			
+			if ($this->form_validation->run() === FALSE)
+			{
+				$response['status'] = 	400;
+				$response['errors']	=	validation_errors();
+			}
+			else
+			{
+				$account_name = explode(' ', $this->input->post('account_name'));
+				
+				if(count($account_name)==2)
+				{
+					$account_fname = $account_name[0];
+					$account_lname	= $account_name[1];
+				}
+				else // multiple names
+				{
+					$account_fname = array();
+					
+					foreach($account_name as $name)
+					{
+						// remove last name
+						if($name!=$account_name[count($account_name)-1])
+						{
+							array_push($account_fname, $name);
+						}
+					}
+					
+					$account_fname = implode(' ', $account_fname);
+					$account_lname = $account_name[count($account_name)-1]; // Last chunk from the array will be the last name
+				}
+				
+				$data = array
+				(
+					'company_id'			=>	$this->input->post('company_id'),
+					'account_group_id' 		=> 	get_setting('default_user_group_id'),
+					'account_fname' 		=> 	$account_fname,
+					'account_lname' 		=> 	$account_lname,
+					'account_email' 		=> 	$this->input->post('account_email'),
+					'account_email_code' 	=> 	$this->Accounts_Model->generate_verification_code(),
+					'account_phone' 		=> 	$this->input->post('account_phone'),
+					'account_phone_code' 	=> 	$this->Accounts_Model->generate_verification_code(),
+					'account_password' 		=> 	password_encrypt($this->input->post('account_password')),
+					'account_avatar'		=>	$this->Accounts_Model->get_random_avatar(),
+					'account_created' 		=> 	get_current_datetime()
+				);
+				
+				if($this->Accounts_Model->register_account($data)==true)
+				{
+					if(intval($this->input->post('account_credentials_email'))===1)
+					{						
+						/* SEND CREDENTIALS THROUGH EMAIL */
+						$data['account_password'] = $this->input->post('account_password');
+						$this->load->model('Emails_Model');
+						$this->Emails_Model->send_notification($data);
+					}
+					
+					if(intval($this->input->post('account_credentials_phone'))===1)
+					{
+						/* SEND CREDENTIALS THROUGH SMS */
+						$this->load->model('SMS_Model');
+						$this->SMS_Model->send_sms($this->input->post('account_phone'), 'Your Package7 account is ' . $this->input->post('account_email') . ' with ' . $this->input->post('account_password') . ' as a password. Enjoy!');
+					}
+					$response['status'] = 	200;
+					$response['url']	=	'refresh';
+				}
+				else
+				{
+					$response['status'] = 	400;
+					$response['errors']	=	$this->Accounts_Model->message;
+				}
+			}
+			
+			header('Content-Type: application/json');
+			echo json_encode($response);
 		}
 		
 		public function register_page()

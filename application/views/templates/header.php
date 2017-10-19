@@ -1,9 +1,24 @@
+<?php
+
+	// echo '<pre>';
+	// print_r($_SESSION);
+	// echo '</pre>';
+	
+?>
 <nav class="navbar navbar-default navbar-fixed-top be-top-header">
         <div class="container-fluid">
           <div class="navbar-header"><a href="<?= base_url(); ?>" class="navbar-brand"></a>
           </div>
           <div class="be-right-navbar">
             <ul class="nav navbar-nav navbar-right be-user-nav">
+				<?php if($this->session->userdata('company')): ?>
+				<li class="hidden-xs">
+					<a href="#" style="line-height:15px; margin-top: 15px; text-align: right;">
+						<small style="font-weight: bold;"><?= $this->session->userdata('company')['company_name']; ?></small><br/>
+						<small><?= $this->session->userdata('company')['company_registration_number']; ?></small>
+					</a>
+				</li>
+				<?php endif; ?>
               <li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle">
 			  <img src="<?= get_avatar($this->session->userdata('account_id')); ?>" alt="Avatar"><span class="user-name"><?= $this->session->userdata('account_fname'); ?></span></a>
                 <ul role="menu" class="dropdown-menu">

@@ -21,29 +21,29 @@
 				}
 			}
 			
-			$this->load->library('form_validation');
-			$this->load->library('pagination');
-			$this->load->model('Clients_Model');
+			$this->load->model('Permissions_Model');
+			$this->load->model('Companies_Model');
 			$this->load->model('Projects_Model');
 		}
 		
 		public function index()
 		{
-			if($this->session->userdata('account_isadmin')==0 || $this->session->userdata('account_isadmin')==false)
+			
+			$data['webpage_title'] = 'Dashboard';
+			
+			if($this->Permissions_Model->is_admin())
 			{
-				$projects_data = $this->Projects_Model->get_projects($this->Projects_Model->get_client_id($this->session->userdata('account_id')));
+				$projects = $this->Projects_Model->get_projects();
 			}
 			else
 			{
-				$projects_data = $this->Projects_Model->get_projects();
+				$projects = $this->Projects_Model->get_projects($this->session->userdata('company')['company_id']);
 			}
 			
-			$data = array
-			(
-				'webpage_title' => 'Available projects',
-				'projects' => $projects_data,
-				'clients' => $this->Clients_Model->get_clients()
-			);
+			if($projects)
+			{
+				$data['projects'] = $this->Projects_Model->results;
+			}
 			
 			$this->load->template('projects/view_projects', $data);
 		}
@@ -110,10 +110,9 @@
 			$project_notes_data = $this->Projects_Model->get_project_notes($project_id);
 			
 			
-			$this->Projects_Model->get_team($project_id);
 			$data = array
 			(
-				'webpage_title' => $project_data['project_name'],
+				'webpage_title' => 'Projects',
 				'project' => $project_data,
 				'project_tasks' => $project_tasks_data,
 				'project_notes' => $project_notes_data

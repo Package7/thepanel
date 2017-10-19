@@ -7,11 +7,11 @@
 		<meta name="description" content="">
 		<meta name="author" content="">
 		<link rel="shortcut icon" href="<?php echo base_url('public/img'); ?>/logo-fav.png">
-		<title><?= get_website_title('Projects'); ?></title>
+		<title><?= get_website_title('Teams'); ?></title>
 		<?= global_load_styles(); ?>
 	</head>
 	<body>
-	<div class="be-wrapper<?= $style; ?>">
+	<div class="be-wrapper">
 		<?php echo $header; ?>
 		<?php echo $sidebar; ?>
 		<div class="be-content">
@@ -20,11 +20,11 @@
 					<div class="col-sm-12">
 						<div class="panel panel-default panel-table">
 							<div class="panel-heading">
-								Members
+								Teams
 								<div class="tools dropdown">
-									<a href="#" data-toggle="modal" data-target="#form-bp1" class="btn btn-warning">
-										<span class="mdi mdi-account-add"></span> 
-										Add member
+									<a href="#" data-toggle="modal" data-target="#add_team_modal" class="btn btn-primary">
+										<span class="mdi mdi-accounts-add" style="vertical-align: middle;"></span> 
+										Team
 									</a>
 								</div>
 							</div>
@@ -34,27 +34,21 @@
                     <table class="table table-striped table-hover">
                       <thead>
                         <tr>
-                          <th style="width:5%;">
-                            &nbsp;
-                          </th>
-                          <th style="width:20%;">Name</th>
-                          <th style="width:17%;">Email</th>
-                          <th style="width:15%;">Phone</th>
+                          <th style="width:20%;">Team name</th>
+                          <th style="width:17%;">Members</th>
                         </tr>
                       </thead>
                       <tbody>
 					  <?php
 					  
-						if($members)
+						if($teams)
 						{
-							foreach($members as $member)
+							foreach($teams as $team)
 							{
 								echo '
 								<tr>
-									<td><img src="' . get_avatar($member['account_id']) . '" class="img-circle" style="height: 35px;"/></td>
-									<td>' . $member['account_fname'] . ' ' . $member['account_lname'] . '</td>
-									<td>' . $member['account_email'] . '</td>
-									<td>' . $member['account_phone'] . '</td>
+									<td><i class="mdi mdi-accounts-list" style="font-size: 24px; margin-right: 15px; vertical-align: middle;"></i> ' . $team['team_name'] . '</td>
+									<td>-</td>
 								</tr>';
 							}
 						}
@@ -100,110 +94,77 @@
       </div>
       <?php echo $sidebar_right; ?>
     </div>
-	<!-- Add project modal start -->
-	<div id="form-bp1" tabindex="-1" role="dialog" class="modal fade colored-header colored-header-warning">
-      <div class="modal-dialog custom-width">
-        <div class="modal-content">
-		
-			<form id="add_member">
-          <div class="modal-header">
-            <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close"></span></button>
-            <h3 class="modal-title">Add member</h3>
-          </div>
-          <div class="modal-body">
-			<div id="add_member_console"></div>
-			<div class="form-group">
-				<label>Full name <span class="mandatory">*</span></label>
-				<input name="account_name" id="account_name" type="text" placeholder="" class="form-control input-xs">
+	
+		<!-- Add team modal start -->
+		<div id="add_team_modal" tabindex="-1" role="dialog" class="modal fade colored-header colored-header-primary">
+			<div class="modal-dialog custom-width">
+				<div class="modal-content">
+					<form id="add_team">
+						<div class="modal-header">
+							<button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close"></span></button>
+							<h3 class="modal-title">Team</strong></h3>
+						</div>
+						<div class="modal-body">
+							<div id="add_team_console"></div>
+							<input type="hidden" name="company_id" id="company_id" value="<?= $this->session->userdata('company')['company_id']; ?>"/>
+							<input type="hidden" name="account_id" id="account_id" value="<?= $this->session->userdata('account_id'); ?>"/>
+							<div class="form-group">
+								<label>Team name <span class="mandatory">*</span></label>
+								<input type="text" name="team_name" id="team_name" class="form-control"/>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" data-dismiss="modal" class="btn btn-default md-close">Cancel</button>
+							<button type="button" id="add_team" class="btn btn-primary">Save</button>
+						</div>
+					</form>
+				</div>
 			</div>
-			<div class="row">
-				<div class="col-sm-6">
-					<div class="form-group">
-						<label>Email <span class="mandatory">*</span></label>
-						<input name="account_email" id="account_email" type="email" placeholder="" class="form-control input-xs">
-					</div>
-					<div class="form-group">
-					  <label>Phone number <span class="mandatory">*</span></label>
-					  <input name="account_phone" id="account_phone" type="phone" placeholder="" class="form-control input-xs">
-					</div>
-				</div>
-				<div class="col-sm-6">
-					<div class="form-group">
-					  <label>Password <span class="mandatory">*</span></label>
-					  <input name="account_password" id="account_password" type="password" placeholder="" class="form-control input-xs">
-					</div>
-					<div class="form-group">
-					  <label>Confirm password <span class="mandatory">*</span></label>
-					  <input name="account_password_confirm" id="account_password_confirm" type="password" placeholder="" class="form-control input-xs">
-					 </div>
-				</div>
-				<div class="clearfix"></div>
-			</div>
-			<div class="row">
-				<div class="col-sm-12">
-					<div><strong>Send credentials to</strong></div> 
-					<div class="be-checkbox be-checkbox-color inline">
-						<input name="account_credentials_email" id="account_credentials_email" type="checkbox">
-						<label for="account_credentials_email">Email</label>
-					</div>
-					<div class="be-checkbox be-checkbox-color inline">
-						<input name="account_credentials_phone" id="account_credentials_phone" type="checkbox">
-						<label for="account_credentials_phone">Text message</label>
-					</div>
-				</div>
-				<div class="col-sm-6">
-				</div>
-				<div class="clearfix"></div>
-			</div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" data-dismiss="modal" class="btn btn-default md-close">Cancel</button>
-            <button type="button" id="add_member" class="btn btn-warning btn"><span class="mdi mdi-account-add"></span> Add member</button>
-          </div>
-		  </form>
-        </div>
-      </div>
-    </div>
-	<!-- Add project modal end   -->
+		</div>
+		<!--  Add team modal end  -->
     <?= global_load_scripts(); ?>
     <script type="text/javascript">
       $(document).ready(function(){
       	//initialize the javascript
       	App.init();
 		
-		$('button#add_member').click(function(event)
-		{
-			event.preventDefault();
-			$.ajax(
-			{
-				type: 'POST',
-				url: '<?= base_url('teams/add_member/' . $this->session->userdata('account_id')); ?>',
-				data: $('form#add_member').serialize(),
-				dataType: 'html',
-				success: function(data)
+			/* Add team */
+				$('button#add_team').on('click', function(event)
 				{
-					$('div#add_member_console').html(data);
+					event.preventDefault();
 					
-					// var response=jQuery.parseJSON(data);
-					
-					// if(typeof response =='object')
-					// {
-					  // if(response.status==200)
-					  // {
-						  // window.location.replace(response.url);
-					  // }
-					  // else
-					  // {
-						  // alert('Error: ' + data);
-					  // }
-					// }
-					// else
-					// {
-						// $('div#add_member_console').html(data);
-					// }
-				}
-			});
-		});
+					$.ajax(
+					{
+						type: 'POST',
+						url: '<?= base_url('teams/add_team'); ?>',
+						data: $('form#add_team').serialize(),
+						success: function(data, status, xhr)
+						{
+							try 
+							{
+								var response = $.parseJSON(JSON.stringify(data));
+								
+								if(response.status==200)
+								{
+								  if(response['url'] == 'refresh')
+								  {
+									  window.location.reload();
+								  }
+								  else
+								  {
+									  window.location.replace(response['url']);
+								  }
+								}
+								else
+								{
+									$('div#add_team_console').html('<div class="alert alert-danger"><strong>Please correct the following:</strong>' + response.errors + '</div>');
+								}
+							} catch(e) {
+								$('div#add_team_console').html(response.errors);
+							}
+						}
+					});
+				});
       });
       
     </script>

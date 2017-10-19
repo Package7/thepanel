@@ -61,6 +61,12 @@ class MY_Loader extends CI_Loader {
 		* Here we need the guy who feels the need of doing this the right way
 		*/
 		
+		if($this->CI->Accounts_Model->get_permission($this->CI->session->userdata('account_group_id'), 'view_companies')===true)
+		{
+			
+			array_push($menu, '<li' . $this->active_menu('companies') . '><a href="' . base_url('companies') . '"><i class="icon mdi icon mdi-balance"></i> Companies</a></li>');
+		}
+		
 		if($this->CI->Accounts_Model->get_permission($this->CI->session->userdata('account_group_id'), 'view_clients')===true)
 		{
 			

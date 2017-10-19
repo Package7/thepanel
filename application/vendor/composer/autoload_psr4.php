@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Stripe\\' => array($vendorDir . '/stripe/stripe-php/lib'),
+    'PhpAmqpLib\\' => array($vendorDir . '/romainrg/codeigniter-php-amqplib/PhpAmqpLib'),
     'DrewM\\MailChimp\\' => array($vendorDir . '/drewm/mailchimp-api/src'),
     'ActiveCollab\\SDK\\' => array($vendorDir . '/activecollab/activecollab-feather-sdk/src'),
 );

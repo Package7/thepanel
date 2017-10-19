@@ -45,19 +45,18 @@
                               <label for="check1"></label>
                             </div>
                           </th>
-                          <th style="width:20%;">Name</th>
-                          <th style="width:17%;">Milestones</th>
-                          <th style="width:15%;">Tasks</th>
-                          <th style="width:1%;">Cloud</th>
-                          <th style="width:10%;">Created</th>
-                          <th style="width:10%;">Last modified</th>
+                          <th style="width:50%;">Project name</th>
+                          <th style="width:5%;">Tasks</th>
+                          <th style="width:5%;">Files</th>
+                          <th style="width:5%;">Notes</th>
+                          <th style="width:5%;">Default</th>
                         </tr>
                       </thead>
                       <tbody>
 					  
 						<?php
 						
-							if($projects!=false)
+							if($projects)
 							{
 								foreach($projects as $project)
 								{
@@ -70,52 +69,30 @@
 											</div>
 										</td>
 										<td>' . $project['project_name'] . '</td>
-										<td></td>
 										<td>' . $project['project_tasks_count'] . '</td>
-										<td align="center"></td>
-										<td>0/0</td>
-										<td>0/0</td>
+										<td>' . $project['project_files_count'] . '</td>
+										<td>' . $project['project_notes_count'] . '</td>
+										<td>';
+																
+										if(intval($project['project_isdefault'])==1)
+										{
+											echo '<i class="mdi mdi-badge-check" style="font-size: 18px; color:green;"></i>';
+										}
+											
+										echo '
+											</td>
 									</tr>';
 								}
 							}
+							else
+							{
+							}
 							
 						?>
-                        <!--<tr>
-                          <td>
-                            <div class="be-checkbox be-checkbox-sm">
-                              <input id="check2" type="checkbox">
-                              <label for="check2"></label>
-                            </div>
-                          </td>
-                          <td class="user-avatar cell-detail user-info"><img src="<?php echo base_url('public/img'); ?>/avatar6.png" alt="Avatar"><span>Penelope Thornton</span><span class="cell-detail-description">Developer</span></td>
-                          <td class="cell-detail"> <span>Initial commit</span><span class="cell-detail-description">Bootstrap Admin</span></td>
-                          <td class="milestone"><span class="completed">8 / 15</span><span class="version">v1.2.0</span>
-                            <div class="progress">
-                              <div style="width: 45%" class="progress-bar progress-bar-primary"></div>
-                            </div>
-                          </td>
-                          <td class="cell-detail"><span>master</span><span class="cell-detail-description">63e8ec3</span></td>
-                          <td class="cell-detail"><span>May 6, 2016</span><span class="cell-detail-description">8:30</span></td>
-                          <td class="text-right">
-                            <div class="btn-group btn-hspace">
-                              <button type="button" data-toggle="dropdown" class="btn btn-default dropdown-toggle">Open <span class="icon-dropdown mdi mdi-chevron-down"></span></button>
-                              <ul role="menu" class="dropdown-menu pull-right">
-                                <li><a href="#">Action</a></li>
-                                <li><a href="#">Another action</a></li>
-                                <li><a href="#">Something else here</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#">Separated link</a></li>
-                              </ul>
-                            </div>
-                          </td>
-                        </tr>-->
 						</tbody>
                     </table>
                   </div>
                 </div>
-				<div class="panel-footer">
-					<p>With selected</p>
-				</div>
               </div>
             </div>
           </div>

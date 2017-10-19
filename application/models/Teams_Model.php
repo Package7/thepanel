@@ -2,37 +2,76 @@
 
 	class Teams_Model extends CI_Model
 	{
-		public $_LastAccountId = null;
+		public $message;
+		public $error;
+		public $results;
+		public $last_inserted_id;
 		
 		public function __construct()
 		{
 			parent::__construct();
 		}
 		
-		public function get_team($account_id)
+		public function create_team($data)
 		{
-			$query = $this->db->select('*')->get_where('accounts', array('account_parent' => $account_id));
-			
-			if($query->num_rows()==0)
+			try
 			{
-				return false;
+				$this->db->trans_begin();
+				
+				$this->db->insert('teams', array
+				(
+					'company_id'	=>	$data['company_id'],
+					'account_id'	=>	$data['account_id'],
+					'team_name'		=>	$data['team_name'],
+					'team_created'	=>	$data['team_created']
+				));
+				
+				if ($this->db->trans_status() === FALSE)
+				{
+					$this->db->trans_rollback();
+					return false;
+				}
+				else
+				{
+					$this->db->trans_commit();
+					return true;
+				}
 			}
-			else
+			catch(Exception $ex)
 			{
-				return $query->result_array();
+				$this->message = 'Generic error';
+				$this->error = $ex->getMessage();
+				return false;
 			}
 		}
 		
-		public function add_member($data)
+		public function get_teams($company_id = null)
 		{
-			if($this->db->insert('accounts', $data) && $this->db->affected_rows()==1)
+			try
 			{
-				$this->_LastAccountId = $this->db->insert_id();
-				return true;
+				if($company_id == null)
+				{
+				}
+				else
+				{
+					$query = $this->db->query("SELECT * FROM teams WHERE company_id = '$company_id' ORDER BY team_created DESC");
+				}
+				
+				if($query->num_rows() == 0)
+				{
+					return false;
+				}
+				else
+				{
+					$this->results = $query->result_array();
+					return true;
+				}
 			}
-			else
+			catch(Exception $ex)
 			{
 				return false;
 			}
 		}
 	}
+	
+?>

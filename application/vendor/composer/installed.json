@@ -186,17 +186,17 @@
     },
     {
         "name": "stripe/stripe-php",
-        "version": "v5.2.3",
-        "version_normalized": "5.2.3.0",
+        "version": "v5.3.0",
+        "version_normalized": "5.3.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/stripe/stripe-php.git",
-            "reference": "9e8d565e991ca82c91d708b281063cefd69d7b2c"
+            "reference": "d102a355d8c2e1a00d68659e9b51fb6f63aaa957"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/stripe/stripe-php/zipball/9e8d565e991ca82c91d708b281063cefd69d7b2c",
-            "reference": "9e8d565e991ca82c91d708b281063cefd69d7b2c",
+            "url": "https://api.github.com/repos/stripe/stripe-php/zipball/d102a355d8c2e1a00d68659e9b51fb6f63aaa957",
+            "reference": "d102a355d8c2e1a00d68659e9b51fb6f63aaa957",
             "shasum": ""
         },
         "require": {
@@ -210,7 +210,7 @@
             "satooshi/php-coveralls": "~0.6.1",
             "squizlabs/php_codesniffer": "~2.0"
         },
-        "time": "2017-09-27 20:35:23",
+        "time": "2017-10-11 16:41:44",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -239,6 +239,105 @@
             "api",
             "payment processing",
             "stripe"
+        ]
+    },
+    {
+        "name": "romainrg/codeigniter-php-amqplib",
+        "version": "v2.6.2",
+        "version_normalized": "2.6.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/romainrg/codeigniter-php-amqplib.git",
+            "reference": "e6884c15bb38ead3bb877ec56353a2686d7a95e9"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/romainrg/codeigniter-php-amqplib/zipball/e6884c15bb38ead3bb877ec56353a2686d7a95e9",
+            "reference": "e6884c15bb38ead3bb877ec56353a2686d7a95e9",
+            "shasum": ""
+        },
+        "require": {
+            "ext-bcmath": "*",
+            "ext-mbstring": "*",
+            "php": ">=5.3.0"
+        },
+        "suggest": {
+            "ext-sockets": "Use AMQPSocketConnection"
+        },
+        "time": "2015-12-23 12:21:45",
+        "type": "codeigniter-third-party",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "PhpAmqpLib\\": "PhpAmqpLib/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL-2.1"
+        ],
+        "authors": [
+            {
+                "name": "Alvaro Videla"
+            },
+            {
+                "name": "Romain GALLIEN"
+            }
+        ],
+        "description": "This library is a pure PHP implementation of the AMQP protocol. It's been tested against RabbitMQ.",
+        "homepage": "https://github.com/romainrg/codeigniter-php-amqplib/",
+        "keywords": [
+            "message",
+            "queue",
+            "rabbitmq"
+        ]
+    },
+    {
+        "name": "romainrg/codeigniter-rabbitmq-library",
+        "version": "v4.0.0",
+        "version_normalized": "4.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/romainrg/codeigniter-rabbitmq-library.git",
+            "reference": "445edbd333c219ec2bc9da363b6d5392c6a0f891"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/romainrg/codeigniter-rabbitmq-library/zipball/445edbd333c219ec2bc9da363b6d5392c6a0f891",
+            "reference": "445edbd333c219ec2bc9da363b6d5392c6a0f891",
+            "shasum": ""
+        },
+        "require": {
+            "romainrg/codeigniter-php-amqplib": "2.6.*"
+        },
+        "time": "2017-04-13 14:07:00",
+        "type": "codeigniter-third-party",
+        "extra": {
+            "installer-name": "rabbitmq"
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT License"
+        ],
+        "authors": [
+            {
+                "name": "Romain Gallien",
+                "email": "romaingallien.rg@gmail.com",
+                "role": "WEB/PHP Developer"
+            },
+            {
+                "name": "Stéphane Lucien-Vauthier",
+                "email": "s.lucien_vauthier@santiane.fr",
+                "role": "WEB/PHP Developer"
+            }
+        ],
+        "description": "CodeIgniter Library for RabbitMQ interactions with CodeIgniter using PHP-AMQPLib",
+        "homepage": "https://github.com/romainrg/codeigniter-rabbitmq-library.git",
+        "keywords": [
+            "codeigniter",
+            "library",
+            "rabbitmq"
         ]
     }
 ]

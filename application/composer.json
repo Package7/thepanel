@@ -5,7 +5,8 @@
         "drewm/mailchimp-api": "^2.4",
         "mandrill/mandrill": "^1.0",
 		"activecollab/activecollab-feather-sdk": "^3.1",
-		"stripe/stripe-php": "^5.2"
+		"stripe/stripe-php": "^5.3",
+		"romainrg/codeigniter-rabbitmq-library": "^4.0"
     },
 	"require-dev": {
 		"textmagic/sdk": "dev-master"

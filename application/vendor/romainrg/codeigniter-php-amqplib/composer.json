@@ -1,0 +1,29 @@
+{
+    "name": "romainrg/codeigniter-php-amqplib",
+    "description": "This library is a pure PHP implementation of the AMQP protocol. It's been tested against RabbitMQ.",
+    "keywords": ["rabbitmq", "message", "queue"],
+    "homepage": "https://github.com/romainrg/codeigniter-php-amqplib/",
+    "type": "codeigniter-third-party",
+    "authors": [
+        {
+            "name" : "Alvaro Videla"
+        },
+        {
+            "name" : "Romain GALLIEN"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "ext-bcmath": "*",
+        "ext-mbstring": "*"
+    },
+    "suggest": {
+        "ext-sockets": "Use AMQPSocketConnection"
+    },
+    "autoload": {
+        "psr-4": {
+            "PhpAmqpLib\\": "PhpAmqpLib/"
+        }
+    },
+    "license": "LGPL-2.1"
+}

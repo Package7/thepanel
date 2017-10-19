@@ -27,6 +27,7 @@
 	class Projects_Model extends CI_Model
 	{
 		public $_LastId = NULL;
+		public $results = null;
 		public $message;
 		public $error;
 		
@@ -98,69 +99,17 @@
 		{
 		}
 		
-		public function get_client_id($account_id)
+		public function get_projects($company_id = null)
 		{
 			try
 			{
-				$query = $this->db->select('account_parent')->get_where('accounts', array('account_id' => $account_id));
-				
-				if($query->num_rows() == 1)
-				{
-					$result = $query->row_array();
-					
-					// account is owner, we can proceed on retriving the client_id
-					if(empty($result['account_parent']) || is_null($result['account_parent']))
-					{
-						$query = $this->db->select('client_id')->get_where('clients', array('account_id' => $account_id));
-						
-						if($query->num_rows() == 1)
-						{
-							$return = $query->row_array();
-							return $return['client_id'];
-						}
-						else
-						{
-							return false;
-						}
-					}
-					else
-					{
-						// account is not an owner, we can itinerate through the accounts
-						$query = $this->db->select('client_id')->get_where('clients', array('account_id' => $result['account_parent']));
-						
-						if($query->num_rows() == 1)
-						{
-							$return = $query->row_array();
-							return $return['client_id'];
-						}
-						else
-						{
-							return false;
-						}
-					}
-				}
-				else
-				{
-					// account doesn't exist
-					return false;
-				}
-			}
-			catch(Exception $ex)
-			{
-			}
-		}
-		
-		public function get_projects($client_id = null)
-		{
-			try
-			{
-				if($client_id === null)
+				if($company_id === null)
 				{
 					$query = $this->db->select('*')->from('projects')->get();
 				}
 				else
 				{
-					$query = $this->db->select('*')->get_where('projects', array('client_id' => $client_id));
+					$query = $this->db->select('*')->get_where('projects', array('company_id' => $company_id));
 				}
 				
 				if($query->num_rows() == 0)
@@ -169,12 +118,14 @@
 				}
 				else
 				{
-					return $query->result_array();
+					$this->results = $query->result_array();
+					return true;
 				}
 			}
 			catch(Exception $ex)
 			{
-				throw new Exception($ex->getMessage());
+				$this->errors = Exception($ex->getMessage());
+				return false;
 			}
 		}
 		
@@ -188,6 +139,29 @@
 			catch(Exception $ex)
 			{
 				throw new Exception($ex->getMessage());
+			}
+		}
+		
+		public function get_default_project($company_id)
+		{
+			try 
+			{
+				$query = $this->db->query("SELECT company_id, project_id, project_name FROM projects WHERE company_id = '$company_id' AND project_isdefault = '1'");
+				
+				if($query->num_rows() == 1)
+				{
+					$this->results = $query->row_array();
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			catch(Exception $ex)
+			{
+				$this->message = $ex->getMessage();
+				return false;
 			}
 		}
 		
@@ -235,6 +209,7 @@
 			catch(Exception $ex)
 			{
 				throw new Exception($ex->getMessage());
+				return false;
 			}
 		}
 		

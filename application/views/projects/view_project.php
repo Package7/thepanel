@@ -49,7 +49,7 @@
 											</thead>
 											<tbody id="projects_tasks">
 											<?php
-
+											
 											foreach($project_tasks as $project_task)
 											{
 											echo '

@@ -44,6 +44,7 @@
 		(
 			'perfect-scrollbar'			=>	'lib/perfect-scrollbar/css/perfect-scrollbar.min',
 			'iconic-font'	=>	'lib/material-design-icons/css/material-design-iconic-font.min',
+			'jquery-gritter' => 'lib/jquery.gritter/css/jquery.gritter',
 			'customer-portal'		=>	'css/style',
 			'bootstrap-editable'	=>	'lib/x-editable/bootstrap3-editable/css/bootstrap-editable',
 			'typeahead' => 'lib/x-editable/inputs-ext/typeaheadjs/lib/typeahead.js-bootstrap',
@@ -115,7 +116,10 @@
 			'moment'				=>	'lib/moment.js/min/moment.min',
 			'select2'				=>	'lib/select2/js/select2.min',
 			'select2-full'			=>	'lib/select2/js/select2.full.min',
-			'form-editable'			=>	'js/app-form-editable'
+			'form-editable'			=>	'js/app-form-editable',
+			'sockjs'				=>	'js/sock',
+			'stomp'					=>	'js/stomp',
+			'jquery-gritter'		=>	'lib/jquery.gritter/js/jquery.gritter'
 		);
 		
 		foreach($scripts as $file=>$path)

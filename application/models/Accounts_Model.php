@@ -2,19 +2,28 @@
 
 	class Accounts_Model extends CI_Model
 	{
-		public $_LastAccountId = NULL;
-		public $_Results = NULL;
+		public $_LastAccountId 		= 	NULL;
+		public $message				=	NULL;
+		public $results 			= 	NULL;
+		public $last_inserted_id	=	NULL;
 		
 		public function __construct()
 		{
 			parent::__construct();
 		}
 		
-		public function get_accounts()
+		public function get_accounts($company_id = null)
 		{
 			try
 			{
-				$query = $this->db->query("SELECT * FROM accounts AS t1 LEFT JOIN accounts_groups AS t2 ON t2.account_group_id=t1.account_group_id ORDER BY t1.account_created DESC");
+				if($company_id == null)
+				{
+					$query = $this->db->query("SELECT * FROM accounts ORDER BY account_created DESC");
+				}
+				else
+				{
+					$query = $this->db->query("SELECT * FROM companies_accounts AS t1 LEFT JOIN accounts AS t2 ON t2.account_id = t1.account_id WHERE t1.company_id = '$company_id' ORDER BY t2.account_created DESC");
+				}
 				
 				if($query->num_rows() == 0)
 				{
@@ -22,12 +31,13 @@
 				}
 				else
 				{
-					$this->_Result = $query->result_array();
-					return $query->result_array();
+					$this->results = $query->result_array();
+					return true;
 				}
 			}
 			catch(Exception $ex)
 			{
+				$this->message = $ex->getMessage();
 				return false;
 			}
 		}
@@ -48,13 +58,76 @@
 		
 		public function register_account($data)
 		{
-			if($this->db->insert('accounts', $data) && $this->db->affected_rows()==1)
+			try
 			{
-				$this->_LastAccountId = $this->db->insert_id();
-				return true;
+				if(is_numeric($data['company_id']))
+				{
+					$this->db->trans_begin();
+					
+					$this->db->insert('accounts', array
+					(
+						'account_group_id' 		=> 	$data['account_group_id'],
+						'account_fname' 		=> 	$data['account_fname'],
+						'account_lname' 		=> 	$data['account_lname'],
+						'account_email' 		=> 	$data['account_email'],
+						'account_email_code' 	=> 	$data['account_email_code'],
+						'account_phone' 		=> 	$data['account_phone'],
+						'account_phone_code' 	=> 	$data['account_phone_code'],
+						'account_password' 		=> 	$data['account_password'],
+						'account_avatar'		=>	$data['account_avatar'],
+						'account_created' 		=> 	$data['account_created']
+					));
+					
+					$this->last_inserted_id = $this->db->insert_id();
+					
+					$this->db->insert('companies_accounts', array
+					(
+						'company_id'				=>	$data['company_id'],
+						'account_id'				=>	$this->last_inserted_id,
+						'company_account_isdefault'	=>	1
+					));
+					
+					if ($this->db->trans_status() === FALSE)
+					{
+						$this->db->trans_rollback();
+						return false;
+					}
+					else
+					{
+						$this->db->trans_commit();
+						return true;
+					}
+					echo 'aici1';
+				}
+				else
+				{
+					if($this->db->insert('accounts', array
+					(
+						'account_group_id' 		=> 	$data['account_group_id'],
+						'account_fname' 		=> 	$data['account_fname'],
+						'account_lname' 		=> 	$data['account_lname'],
+						'account_email' 		=> 	$data['account_email'],
+						'account_email_code' 	=> 	$data['account_email_code'],
+						'account_phone' 		=> 	$data['account_phone'],
+						'account_phone_code' 	=> 	$data['account_phone_code'],
+						'account_password' 		=> 	$data['account_password'],
+						'account_avatar'		=>	$data['account_avatar'],
+						'account_created' 		=> 	$data['account_created']
+					)) && $this->db->affected_rows()==1)
+					{
+						$this->last_inserted_id = $this->db->insert_id();
+						return true;
+					}
+					else
+					{
+						return false;
+					}
+				}
 			}
-			else
+			catch(Exception $ex)
 			{
+				$this->errors = 'Generic error. Please contact support';
+				$this->message = $ex->getMessage();
 				return false;
 			}
 		}
@@ -82,7 +155,7 @@
 		
 		public function login_account($data)
 		{
-			$query = $this->db->select('account_id, account_group_id, account_parent, account_fname, account_lname, account_email, account_phone, account_password, account_isadmin')->get_where('accounts', array('account_email' => $data['account_email']));
+			$query = $this->db->select('account_id, account_group_id, account_fname, account_lname, account_email, account_phone, account_password, account_isadmin')->get_where('accounts', array('account_email' => $data['account_email']));
 			 
 			if($query->num_rows()==1)
 			{
@@ -136,6 +209,53 @@
 		{
 			$avatars = array ('avatar1.png', 'avatar2.png', 'avatar3.png', 'avatar4.png', 'avatar5.png', 'avatar6.png');
 			return $avatars[rand(0,count($avatars)-1)];
+		}
+		
+		public function get_default_company_id($account_id)
+		{
+			try
+			{
+				$query = $this->db->query("SELECT company_id FROM companies_accounts WHERE account_id = '$account_id' AND company_account_isdefault = '1'");
+				
+				if($query->num_rows() == 1)
+				{
+					$result = $query->row_array();
+					$this->results = $result['company_id'];
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			catch(Exception $ex)
+			{
+				$this->errors = $ex->getMessage();
+				return false;
+			}
+		}
+		
+		public function get_default_company($account_id)
+		{
+			try
+			{
+				$query = $this->db->query("SELECT t1.company_id, t2.company_name, t2.company_registration_number, t2.company_stripe_id FROM companies_accounts AS t1 LEFT JOIN companies AS t2 ON t2.company_id=t1.company_id WHERE t1.account_id = '$account_id' AND t1.company_account_isdefault = '1'");
+				
+				if($query->num_rows() == 1)
+				{
+					$this->results = $query->row_array();
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
+			catch(Exception $ex)
+			{
+				$this->errors = $ex->getMessage();
+				return false;
+			}
 		}
 		
 		/*

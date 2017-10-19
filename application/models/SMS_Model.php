@@ -6,7 +6,7 @@
 	{
 		private $TextMagic_Instance;
 		private $TextMagic_Username = 'georgedobre';
-		private $TextMagic_ApiKey = 'Wt0HWLpMMhsnitKTSuQa2qW45gf4h9';
+		private $TextMagic_ApiKey = 'C5KvSLPIFte3MX9kYR4y1nH0fzu0nK';
 		
 		public function __construct()
 		{
@@ -28,7 +28,7 @@
 			{
 				$result = $this->TextMagic_Instance->messages->create(
 					array(
-						'from' => 'MyPP',
+						'from' => 'Package7',
 						'text' => $message,
 						'phones' => implode(', ', array($phone))
 					)

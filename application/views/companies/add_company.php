@@ -24,9 +24,14 @@
 										<span class="panel-subtitle">Start up by creating a new company</span>
 									</div>
 									<div class="panel-body">
+										<div id="add_company_console"></div>
 										<div class="form-group xs-pt-10">
 											<label>Company name</label>
 											<input name="company_name" id="company_name" type="text" placeholder="(eg. Agency7 LLP)" class="form-control">
+										</div>
+										<div class="form-group xs-pt-10">
+											<label>Registration number</label>
+											<input name="company_registration_number" id="company_registration_number" type="text" placeholder="(eg. Agency7 LLP)" class="form-control">
 										</div>
 										<div class="form-group">
 											<label>Address</label>
@@ -47,12 +52,28 @@
 											</div>
 										</div>
 									</div>
+									<div class="panel-heading panel-heading-divider">
+										First project
+										<span class="panel-subtitle">Your first project details</span>
+									</div>
+									<div class="panel-body">
+										<div id="add_company_console"></div>
+										<div class="form-group xs-pt-10">
+											<label>Project name</label>
+											<input name="project_name" id="project_name" type="text" placeholder="(eg. package7.com)" class="form-control">
+										</div>
+										<div class="form-group xs-pt-10">
+											<label>Description</label>
+											<input name="project_description" id="project_description" type="text" placeholder="(eg. My first website)" class="form-control">
+										</div>
+									</div>
 									<div class="panel-footer">
 										<p class="text-right">
 											<button class="btn btn-space btn-default">Cancel</button>
-											<button type="submit" class="btn btn-space btn-primary">Save</button>
+											<button id="add_company" type="submit" class="btn btn-space btn-primary">Save</button>
 										</p>
 									</div>
+									
 								</div>
 							</form>
 						</div>
@@ -62,10 +83,12 @@
 		  <?php echo $sidebar_right; ?>
 		</div>
 		<?= global_load_scripts(); ?>
+		<script type="text/javascript" src="<?= base_url('public/js/app-companies.js'); ?>"></script>
 		<script type="text/javascript">
 			$(document).ready(function()
 			{
 				App.init();
+				App.companies('<?= base_url(); ?>');
 			});
 		</script>
 	</body>
