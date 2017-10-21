@@ -43,11 +43,25 @@
 									}
 									else
 									{
+										foreach($tasks as $task)
+										{
+											echo '
+											<div class="row user-progress user-progress-small">
+												<div class="col-md-5"><span class="title">' . $task['project_task_name'] . '</span></div>
+												<div class="col-md-7">
+													<div class="progress">
+														<div style="width: ' . $task['project_task_completion'] . '%" class="progress-bar progress-bar-success"></div>
+													</div>
+												</div>
+											</div>';
+										}
+										
+										echo '<a href="' . base_url('projects/view/' . $this->session->userdata('project')['project_id']) . '" class="btn btn-default" style="width: 100%;">See all</a>';
 									}
 									
 								?>
 								
-									<a href="#" class="btn btn-default" style="width: 100%;">See all</a>
+									
 								</div>
 							</div>
 						</div>
@@ -71,6 +85,9 @@
 												Currently no files have been added.
 											</div>
 										</div>';
+									}
+									else
+									{
 									}
 									
 								?>

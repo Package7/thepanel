@@ -57,7 +57,7 @@
 					{
 						$data['accounts'] = $this->Accounts_Model->results;
 					}
-				
+					
 					if($this->Teams_Model->get_teams($this->session->userdata('company')['company_id']))
 					{
 						$data['teams'] = $this->Teams_Model->results;
