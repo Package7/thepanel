@@ -31,12 +31,19 @@
 			
 			$data['webpage_title'] = 'Dashboard';
 			
-			if($this->Permissions_Model->is_admin())
-			{
+			if($this->Permissions_Model->is_admin()) {
+				if($this->Projects_Model->get_projects() === true) {
+					$data['projects'] = $this->Projects_Model->results;
+					
+					// foreach($data['projects'] as $project) {
+						// if($this->Projects_Model->get_project_tasks($project['project_id']) === true) {
+							// array_
+						// }
+					// }
+				}
+				
 				$this->load->template('dashboard/admin', $data);
-			}
-			else
-			{
+			} else {
 				$companies = $this->Companies_Model->get_companies($this->session->userdata('account_id'));
 				$projects = $this->Projects_Model->get_projects($this->session->userdata('company')['company_id']);
 				
@@ -44,6 +51,8 @@
 				{
 					$data['companies'] = $this->Companies_Model->results;
 					$data['projects'] = $projects;
+					$data['accounts'] = array();
+					$data['teams'] = array();
 					
 					if($this->Projects_Model->get_default_project($this->session->userdata('company')['company_id']))
 					{
@@ -77,10 +86,6 @@
 		public function add_company_process()
 		{
 			$this->form_validation->set_rules('company_name', 'Company name', 'required');
-			$this->form_validation->set_rules('company_registration_number', 'Company registration number', 'required');
-			$this->form_validation->set_rules('company_address', 'Address', 'required');
-			$this->form_validation->set_rules('company_city', 'City', 'required');
-			$this->form_validation->set_rules('company_postcode', 'Postcode', 'required');
 			
 			if ($this->form_validation->run() === false)
 			{	
@@ -100,6 +105,7 @@
 					'company_postcode'				=>	$this->input->post('company_postcode'),
 					'company_created'				=>	get_current_datetime(),
 					'account_id'					=>	$this->session->userdata('account_id'),
+					'company_account_isowner' 		=>	1,
 					'company_account_isdefault' 	=>	1,
 					'project_name'					=>	$this->input->post('project_name'),
 					'project_description'			=>	$this->input->post('project_description'),
@@ -132,7 +138,7 @@
 					else
 					{
 						$response['status'] = 400;
-						$response['errors'] = '<p>General error. Please contact support.</p>';
+						$response['errors'] = $this->Companies_Model->errors;
 					}
 				}
 			}

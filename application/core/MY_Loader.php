@@ -42,7 +42,7 @@ class MY_Loader extends CI_Loader {
 	function active_menu($url)
 	{
 		#if(base_url(uri_string())==base_url('settings/general')) echo ' class="active"';
-		if(base_url(uri_string())==base_url($url))
+		if($this->CI->uri->segment(1)==$url)
 		{
 			return ' class="active"';
 		}
@@ -61,18 +61,6 @@ class MY_Loader extends CI_Loader {
 		* Here we need the guy who feels the need of doing this the right way
 		*/
 		
-		if($this->CI->Accounts_Model->get_permission($this->CI->session->userdata('account_group_id'), 'view_companies')===true)
-		{
-			
-			array_push($menu, '<li' . $this->active_menu('companies') . '><a href="' . base_url('companies') . '"><i class="icon mdi icon mdi-balance"></i> Companies</a></li>');
-		}
-		
-		if($this->CI->Accounts_Model->get_permission($this->CI->session->userdata('account_group_id'), 'view_clients')===true)
-		{
-			
-			array_push($menu, '<li' . $this->active_menu('clients') . '><a href="' . base_url('clients') . '"><i class="icon mdi icon mdi-accounts-list"></i> Clients</a></li>');
-		}
-		
 		if($this->CI->Accounts_Model->get_permission($this->CI->session->userdata('account_group_id'), 'view_quotes')===true)
 		{
 			
@@ -85,22 +73,40 @@ class MY_Loader extends CI_Loader {
 			array_push($menu, '<li' . $this->active_menu('orders') . '><a href="' . base_url('orders') . '"><i class="icon mdi icon mdi-assignment"></i> Orders</a></li>');
 		}
 		
+		// if($this->CI->Accounts_Model->get_permission($this->CI->session->userdata('account_group_id'), 'view_teams')===true)
+		// {
+			
+			// array_push($menu, '<li' . $this->active_menu('teams') . '><a href="' . base_url('teams') . '"><i class="icon mdi icon mdi-accounts"></i> Teams</a></li>');
+		// }
+		
+		if($this->CI->Accounts_Model->get_permission($this->CI->session->userdata('account_group_id'), 'view_projects')===true)
+		{
+			
+			array_push($menu, '<li' . $this->active_menu('projects') . '><a href="' . base_url('projects') . '"><i class="icon mdi icon mdi-cloud-circle"></i> Projects</a></li>');
+		}
+		
+		if($this->CI->Accounts_Model->get_permission($this->CI->session->userdata('account_group_id'), 'view_accounts')===true)
+		{
+			
+			array_push($menu, '<li' . $this->active_menu('accounts') . '><a href="' . base_url('accounts') . '"><i class="icon mdi icon mdi-account"></i> User accounts</a></li>');
+		}
+		
+		if($this->CI->Accounts_Model->get_permission($this->CI->session->userdata('account_group_id'), 'view_assets')===true)
+		{
+			
+			array_push($menu, '<li' . $this->active_menu('assets') . '><a href="' . base_url('assets') . '"><i class="icon mdi icon mdi-attachment"></i> Assets</a></li>');
+		}
+		
 		if($this->CI->Accounts_Model->get_permission($this->CI->session->userdata('account_group_id'), 'view_invoices')===true)
 		{
 			
 			array_push($menu, '<li' . $this->active_menu('invoices') . '><a href="' . base_url('invoices') . '"><i class="icon mdi icon mdi-accounts-list"></i> Invoices</a></li>');
 		}
 		
-		if($this->CI->Accounts_Model->get_permission($this->CI->session->userdata('account_group_id'), 'view_teams')===true)
+		if($this->CI->Accounts_Model->get_permission($this->CI->session->userdata('account_group_id'), 'view_companies')===true)
 		{
 			
-			array_push($menu, '<li' . $this->active_menu('teams') . '><a href="' . base_url('teams') . '"><i class="icon mdi icon mdi-accounts"></i> Teams</a></li>');
-		}
-		
-		if($this->CI->Accounts_Model->get_permission($this->CI->session->userdata('account_group_id'), 'view_projects')===true)
-		{
-			
-			array_push($menu, '<li' . $this->active_menu('projects') . '><a href="' . base_url('projects') . '"><i class="icon mdi icon mdi-cloud-circle"></i> Projects</a></li>');
+			array_push($menu, '<li' . $this->active_menu('companies') . '><a href="' . base_url('companies') . '"><i class="icon mdi icon mdi-balance"></i> Companies</a></li>');
 		}
 		
 		$data['menu'] = $menu;
@@ -109,6 +115,6 @@ class MY_Loader extends CI_Loader {
 		$data['header'] = 	$this->view('templates/header', $data, TRUE);
 		$data['footer'] 	= 	$this->view('templates/footer', NULL, TRUE);
 		
-		$this->load->view($template_name, $data);
+		$this->parser->parse($template_name, $data);
 	}
 }

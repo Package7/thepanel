@@ -14,115 +14,39 @@
 			<?php echo $header; ?>
 			<?php echo $sidebar; ?>
 			<div class="be-content">  
-				<div class="main-content container-fluid"> 
+				<div class="main-content container-fluid">
 					<div class="row">
-						<div class="col-xs-12 col-md-4">
-							<div class="panel panel-default">
-								<div class="panel-heading panel-heading-divider xs-pb-15">
-									<i class="icon mdi mdi-assignment"></i> Tasks progress
-								</div>
-								<div class="panel-body xs-pt-25">
-								<?php 
-								
-								// echo '<pre>';
-								// print_r($project);
-								// echo '</pre>';
-								
-									if(count($tasks)==0)
-									{
-										echo '
-										<div role="alert" class="alert alert-warning alert-icon alert-icon-colored alert-dismissible">
-											<div class="icon">
-												<span class="mdi mdi-alert-triangle"></span>
-											</div>
-											<div class="message">
-												<button type="button" data-dismiss="alert" aria-label="Close" class="close"><span aria-hidden="true" class="mdi mdi-close"></span></button>
-												Currently no tasks have been added. 
-											</div>
-										</div>';
-									}
-									else
-									{
-										foreach($tasks as $task)
-										{
-											echo '
-											<div class="row user-progress user-progress-small">
-												<div class="col-md-5"><span class="title">' . $task['project_task_name'] . '</span></div>
-												<div class="col-md-7">
-													<div class="progress">
-														<div style="width: ' . $task['project_task_completion'] . '%" class="progress-bar progress-bar-success"></div>
-													</div>
-												</div>
-											</div>';
-										}
-										
-										echo '<a href="' . base_url('projects/view/' . $this->session->userdata('project')['project_id']) . '" class="btn btn-default" style="width: 100%;">See all</a>';
-									}
-									
-								?>
-								
-									
-								</div>
+						<div class="col-xs-12 col-md-6 col-lg-4">
+							<div class="widget widget-tile">
+							<div id="spark2" class="chart sparkline"><canvas width="81" height="35" style="display: inline-block; width: 81px; height: 35px; vertical-align: top;"></canvas></div>
+							<div class="data-info">
+							<div class="desc">In progress</div>
+							<div class="value"><span class="indicator indicator-positive mdi mdi-chevron-up"></span><span data-toggle="counter" data-end="80" data-suffix="%" class="number">80%</span>
+							</div>
+							</div>
 							</div>
 						</div>
-						<div class="col-xs-12 col-md-4">
-							<div class="panel panel-default">
-								<div class="panel-heading panel-heading-divider xs-pb-15">
-									<i class="icon mdi mdi-download"></i> Files
-								</div>
-								<div class="panel-body xs-pt-25">
-								<?php 
-								
-									if(count($tasks)==0)
-									{
-										echo '
-										<div role="alert" class="alert alert-warning alert-icon alert-icon-colored alert-dismissible">
-											<div class="icon">
-												<span class="mdi mdi-alert-triangle"></span>
-											</div>
-											<div class="message">
-												<button type="button" data-dismiss="alert" aria-label="Close" class="close"><span aria-hidden="true" class="mdi mdi-close"></span></button>
-												Currently no files have been added.
-											</div>
-										</div>';
-									}
-									else
-									{
-									}
-									
-								?>
-									<a href="#" class="btn btn-default" style="width: 100%;">See all</a>
-								</div>
+						<div class="col-xs-12 col-md-6 col-lg-4">
+							<div class="widget widget-tile">
+							<div id="spark3" class="chart sparkline"><canvas width="85" height="35" style="display: inline-block; width: 85px; height: 35px; vertical-align: top;"></canvas></div>
+							<div class="data-info">
+							<div class="desc">Closed</div>
+							<div class="value"><span class="indicator indicator-positive mdi mdi-chevron-up"></span><span data-toggle="counter" data-end="532" class="number">532</span>
+							</div>
+							</div>
 							</div>
 						</div>
-						<div class="col-xs-12 col-md-4">
-							<div class="panel panel-default">
-								<div class="panel-heading panel-heading-divider xs-pb-15">
-									<i class="icon mdi mdi-file-text"></i> Notes
-								</div>
-								<div class="panel-body xs-pt-25">
-								<?php 
-								
-									if(count($tasks)==0)
-									{
-										echo '
-										<div role="alert" class="alert alert-warning alert-icon alert-icon-colored alert-dismissible">
-											<div class="icon">
-												<span class="mdi mdi-alert-triangle"></span>
-											</div>
-											<div class="message">
-												<button type="button" data-dismiss="alert" aria-label="Close" class="close"><span aria-hidden="true" class="mdi mdi-close"></span></button>
-												Currently no notes have been added.
-											</div>
-										</div>';
-									}
-								?>
-								
-									<a href="#" class="btn btn-default" style="width: 100%;">See all notes</a>
-								</div>
+						<div class="col-xs-12 col-md-6 col-lg-4">
+							<div class="widget widget-tile">
+							<div id="spark4" class="chart sparkline"><canvas width="85" height="35" style="display: inline-block; width: 85px; height: 35px; vertical-align: top;"></canvas></div>
+							<div class="data-info">
+							<div class="desc">Downloads</div>
+							<div class="value"><span class="indicator indicator-negative mdi mdi-chevron-down"></span><span data-toggle="counter" data-end="113" class="number">113</span>
+							</div>
+							</div>
 							</div>
 						</div>
-					</div> 
+					</div>
 						<div class="row">
 							<div class="col-md-12">
 								<div class="panel panel-default">
@@ -187,7 +111,7 @@
 							</div>
 					</div>
 					
-					<div class="row">
+					<!-- <div class="row">
 						<div class="col-md-12">
 							<div class="panel panel-default">
 								<div class="panel-heading panel-heading-divider">
@@ -240,7 +164,7 @@
 								</div>
 							</div>
 						</div>
-					</div>
+					</div> -->
 				</div>
 		  <?php echo $sidebar_right; ?>
 		</div>

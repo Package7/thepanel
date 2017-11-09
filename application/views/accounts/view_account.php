@@ -20,7 +20,7 @@
 						<div class="col-sm-4">
 							<div class="panel panel-default panel-table">
 								<div class="panel-heading">
-									Account
+									Account 
 								</div>
 								<div class="panel-body">
 									<table id="user" style="clear: both" class="table table-striped table-borderless">
@@ -93,7 +93,6 @@
 															</div>
 														</td>
 													</tr>';
-													
 												}
 												
 											?>

@@ -12,6 +12,7 @@
 		public function index()
 		{
 			$data['webpage_title'] = 'Teams';
+			$data['teams'] = array();
 			
 			if($this->Teams_Model->get_teams($this->session->userdata('company')['company_id']))
 			{

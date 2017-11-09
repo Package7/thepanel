@@ -22,6 +22,8 @@
 	| 5. Projects team
 	|	5.1. get_team()
 	|
+	| 6. Followers
+	|
 	|*/
 
 	class Projects_Model extends CI_Model
@@ -30,6 +32,7 @@
 		public $results = null;
 		public $message;
 		public $error;
+		public $last_file_id = NULL;
 		
 		public function __construct()
 		{
@@ -223,24 +226,48 @@
 		
 		public function add_project_task($data)
 		{
-			try
+			$data2 =  array 
+			(
+				'project_id'				=>	$data['project_id'],
+				'account_id'				=>	$data['account_id'],
+				'project_task_name' 		=> 	$data['project_task_name'],
+				'project_task_description' 	=> 	$data['project_task_description'],
+				'project_task_created'		=>	$data['project_task_created']
+			);
+			
+			$this->db->trans_begin();
+			$this->db->insert('projects_tasks', $data2);
+			$this->_LastId = $this->db->insert_id();
+			
+			if($data['project_task_subscribers'] !== NULL)
 			{
-				$query = $this->db->insert('projects_tasks', $data);
-				
-				if($this->db->affected_rows() == 0)
-				{
-					return false;
-				}
-				else
-				{
-					$this->_LastId = $this->db->insert_id();
-					return true;
+				foreach($data['project_task_subscribers'] as $subscriber) {
+					$sub_data = array(
+						'project_id'		=>	$data['project_id'],
+						'project_task_id'	=>	$this->_LastId,
+						'account_id'	=>	$subscriber
+					);
+					
+					$this->db->insert('projects_tasks_subscribers', $sub_data);
 				}
 			}
-			catch(Exception $ex)
+			
+					
+			if ($this->db->trans_status() === FALSE)
 			{
-				throw new Exception($ex->getMessage());
+				$this->db->trans_rollback();
+				return false;
 			}
+			else
+			{
+				$this->db->trans_commit();
+				return true;
+			}
+			
+		}
+		
+		public function update_task_subscribers($task_id, $data) {
+			// $query = $this->db->query("SELECT 
 		}
 		
 		
@@ -275,7 +302,7 @@
 		public function get_project_tasks($project_id)
 		{
 			try {
-				$query = $this->db->query("SELECT * FROM projects_tasks AS t1 LEFT JOIN accounts AS t2 ON t2.account_id=t1.assignee_id WHERE project_id='$project_id' ORDER BY project_task_position ASC")->result_array();
+				$query = $this->db->query("SELECT * FROM projects_tasks AS t1 LEFT JOIN accounts AS t2 ON t2.account_id=t1.assignee_id LEFT JOIN projects_tasks_statuses AS t3 ON t3.project_task_status_id = t1.project_task_status_id WHERE project_id='$project_id' ORDER BY project_task_position ASC")->result_array();
 			} catch(Exception $e) {
 			}
 			
@@ -300,6 +327,12 @@
 			catch(Exception $e)
 			{
 			}
+		}
+		
+		public function delete_project_task($project_task_id)
+		{
+			$query = $this->db->query("DELETE FROM projects_tasks WHERE project_task_id = '$project_task_id'");
+			return TRUE;
 		}
 		
 		public function get_project_task_statuses()
@@ -356,7 +389,42 @@
 				}
 				else
 				{
-					return $query->result_array();
+					$results = $query->result_array();
+					$new_results = array();
+					
+					$i = 0;
+					foreach($results as $result)
+					{
+						$project_task_comment_id = $result['project_task_comment_id'];
+						$files = $this->db->query("SELECT * FROM projects_files WHERE project_task_comment_id = '$project_task_comment_id'");
+						
+						if($query->num_rows() != 0)
+						{
+							$new_results[$i]['account_id'] = $result['account_id'];
+							$new_results[$i]['project_task_comment_content'] = $result['project_task_comment_content'];
+							$new_results[$i]['account_fname'] = $result['account_fname'];
+							$new_results[$i]['account_lname'] = $result['account_lname'];
+							$new_results[$i]['project_task_comment_created'] = $result['project_task_comment_created'];
+							$new_results[$i]['project_task_comment_id'] = $result['project_task_comment_id'];
+							$new_results[$i]['files'] = $files->result_array();
+							
+							foreach($files->result_array() as $file=>$value)
+							{
+								$new_results[$i]['files'][$file]['project_file_id'] = $value['project_file_id'];
+								$new_results[$i]['files'][$file]['project_id'] = $value['project_id'];
+								$new_results[$i]['files'][$file]['project_task_id'] = $value['project_task_id'];
+								$new_results[$i]['files'][$file]['project_task_comment_id'] = $value['project_task_comment_id'];
+								$new_results[$i]['files'][$file]['project_file_name'] = $value['project_file_name'];
+								$new_results[$i]['files'][$file]['project_file_size'] = number_format($value['project_file_size']/10000000, 2);
+								$new_results[$i]['files'][$file]['project_file_type'] = $value['project_file_type'];
+								$new_results[$i]['files'][$file]['project_file_type_icon'] = $this->get_file_type_icon($value['project_file_type']);
+							}
+							
+							$i++;
+						}
+					}
+					
+					return $new_results;
 				}
 			}
 			catch(Exception $ex)
@@ -439,11 +507,12 @@
 		public function get_assignee($project_task_id)
 		{
 			try {
-				$query = $this->db->query("SELECT * FROM projects_tasks AS t1 LEFT JOIN accounts AS t2 ON t2.account_id=t1.account_id");
+				$query = $this->db->query("SELECT assignee_id FROM projects_tasks AS t1 LEFT JOIN accounts AS t2 ON t2.account_id=t1.assignee_id WHERE t1.project_task_id = '$project_task_id'");
 				
 				if($query->num_rows()==1)
 				{
-					return $query->row_array();
+					$this->result = $query->row_array()['assignee_id'];
+					return true;
 				}
 				else
 				{
@@ -476,6 +545,17 @@
 			}
 		}
 		
+		public function get_project_task_due_date($project_task_id) {
+			$query = $this->db->select('project_task_due_date')->get_where('projects_tasks', array('project_task_id' => $project_task_id));
+			
+			if($query->num_rows() == 1) {
+				$this->result = $query->row_array()['project_task_due_date'];
+				return true;
+			} else {
+				return false;
+			}
+		}
+		
 		/*
 		| 5.1. get_team()
 		*/
@@ -498,6 +578,16 @@
 		{
 			try 
 			{
+				if(!isset($data['project_follower_email_notifications']))
+				{
+					$data['project_follower_email_notifications'] = 0;
+				}
+				
+				if(!isset($data['project_follower_text_notifications']))
+				{
+					$data['project_follower_text_notifications'] = 0;
+				}
+				
 				$query = $this->db->insert('projects_followers', $data);
 				
 				if($this->db->affected_rows() == 0)
@@ -513,6 +603,116 @@
 			{
 				throw new Exception($ex->getMessage());
 			}
+		}
+		
+		public function get_available_followers($company_id = null, $project_id = null)
+		{
+			$available_followers = array();
+			
+			$query = $this->db->query("SELECT account_id, account_fname, account_lname FROM accounts WHERE account_isadmin = '1' AND account_id NOT IN (SELECT account_id FROM projects_followers WHERE project_id = '$project_id')");
+			
+			if($this->Permissions_Model->is_admin())
+			{
+				if($query->num_rows() > 0)
+				{
+					$available_followers['admins'] = $query->result_array();
+				}
+			}
+			
+			$query = $this->db->query("SELECT t1.account_id, t2.account_fname, t2.account_lname FROM companies_accounts AS t1 LEFT JOIN accounts AS t2 ON t2.account_id = t1.account_id WHERE t1.company_id = '$company_id' AND t1.account_id NOT IN (SELECT account_id FROM projects_followers WHERE project_id = '$project_id')");
+			
+			if($query->num_rows() > 0)
+			{
+				$available_followers['members'] = $query->result_array();
+			}
+			
+			// $query = $this->db->query("SELECT t1.team_id, t1.team_name FROM teams AS t1 WHERE t1.company_id = '$company_id'");
+			
+			// if($query->num_rows() > 0)
+			// {
+				// $available_followers['teams'] = $query->result_array();
+			// }
+			
+			return $available_followers;
+		}
+		
+		/*
+		| Getting followers for current selected project
+		*/
+		
+		public function get_followers($project_id)
+		{
+			$query = $this->db->query("SELECT t1.project_follower_email_notifications, t1.project_follower_text_notifications, t2.account_id, t2.account_fname, t2.account_lname FROM projects_followers AS t1 LEFT JOIN accounts AS t2 ON t2.account_id = t1.account_id WHERE t1.project_id = '$project_id'");
+			
+			if($query->num_rows() == 0)
+			{
+				return FALSE;
+			}
+			else
+			{
+				$this->results = $query->result_array();
+				return TRUE;
+			}
+		}
+		
+		/*****
+		/* Get an array of all the people that have been added as subscribers
+		/* to a particular task in a project
+		/*
+		/* 	@author: George
+		/* 	@return: onSuccess { array }
+		/*				onError { (bool) false }
+		*****/
+		
+		public function get_task_subscribers($task_id) {
+			$query = $this->db->query("SELECT t1.account_id, t2.account_fname, t2.account_lname, t2.account_avatar FROM projects_tasks_subscribers AS t1 LEFT JOIN accounts AS t2 ON t2.account_id = t1.account_id WHERE t1.project_task_id = '$task_id'");
+			
+			if($query->num_rows() != 0) {
+				return $query->result_array();
+			} else {
+				return false;
+			}
+		}
+		
+		
+		public function get_file_type_icon($file_type)
+		{
+			$query = $this->db->query("SELECT project_file_type_icon FROM projects_files_types WHERE project_file_type_name = '$file_type'");
+			
+			if($query->num_rows() == 1)
+			{
+				$result = $query->row_array();
+				return $result['project_file_type_icon'];
+			}
+			else
+			{
+				return 'fa-file';
+			}
+		}
+		public function create_project_file($data)
+		{
+			$this->db->insert('projects_files', $data);
+			
+			if($this->db->affected_rows() > 0)
+			{
+				return TRUE;
+			}
+			else
+			{
+				echo $this->db->error();
+				return FALSE;
+			}
+		}
+		
+		public function update_project_file($data)
+		{
+		}
+		
+		public function get_files($project_id)
+		{
+			$query = $this->db->query("SELECT project_file_id, project_file_name, project_file_size, project_file_type FROM projects_files WHERE project_id = '$project_id'");
+			$this->results = $query->result_array();
+			return TRUE;
 		}
 	}
 	

@@ -51,10 +51,11 @@
 			{
 				if($company_id == null)
 				{
+					$query = $this->db->query("SELECT t1.team_id, t1.company_id, t1.account_id, t1.team_name, t2.company_name, t3.account_fname, t3.account_lname FROM teams AS t1 LEFT JOIN companies AS t2 ON t2.company_id = t1.company_id LEFT JOIN accounts AS t3 ON t3.account_id = t1.account_id WHERE t1.company_id = '$company_id'");
 				}
 				else
 				{
-					$query = $this->db->query("SELECT * FROM teams WHERE company_id = '$company_id' ORDER BY team_created DESC");
+					$query = $this->db->query("SELECT * FROM teams AS t1 LEFT JOIN companies AS t2 ON t2.company_id = t1.company_id WHERE t1.company_id = '$company_id' ORDER BY t1.team_created DESC");
 				}
 				
 				if($query->num_rows() == 0)

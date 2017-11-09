@@ -39,17 +39,13 @@
                     <table class="table table-striped table-hover">
                       <thead>
                         <tr>
-                          <th style="width:5%;">
-                            <div class="be-checkbox be-checkbox-sm">
-                              <input id="check1" type="checkbox">
-                              <label for="check1"></label>
-                            </div>
-                          </th>
                           <th style="width:50%;">Project name</th>
                           <th style="width:5%;">Tasks</th>
                           <th style="width:5%;">Files</th>
                           <th style="width:5%;">Notes</th>
-                          <th style="width:5%;">Default</th>
+                          <?php if(!$this->Permissions_Model->is_admin()): ?>
+						  <th style="width:5%;">Default</th>
+						  <?php endif; ?>
                         </tr>
                       </thead>
                       <tbody>
@@ -62,25 +58,17 @@
 								{
 									echo '
 									<tr style="cursor: pointer; cursor: hand;"id="project_link" data-href="' . base_url('projects/view/' . $project['project_id']) . '">
-										<td>
-											<div class="be-checkbox be-checkbox-sm">
-												<input id="check2" type="checkbox">
-												<label for="check2"></label>
-											</div>
-										</td>
 										<td>' . $project['project_name'] . '</td>
 										<td>' . $project['project_tasks_count'] . '</td>
 										<td>' . $project['project_files_count'] . '</td>
-										<td>' . $project['project_notes_count'] . '</td>
-										<td>';
+										<td>' . $project['project_notes_count'] . '</td>';
 																
-										if(intval($project['project_isdefault'])==1)
+										if(intval($project['project_isdefault'])==1 && !$this->Permissions_Model->is_admin())
 										{
-											echo '<i class="mdi mdi-badge-check" style="font-size: 18px; color:green;"></i>';
+											echo '<td><i class="mdi mdi-badge-check" style="font-size: 18px; color:green;"></i></td>';
 										}
 											
 										echo '
-											</td>
 									</tr>';
 								}
 							}
@@ -105,21 +93,21 @@
       <div class="modal-dialog custom-width">
         <div class="modal-content">
 			<form id="add_project">
-          <div class="modal-header">
-            <button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close"></span></button>
-            <h3 class="modal-title">Add project</h3>
-          </div>
+			  <div class="modal-header">
+					<button type="button" data-dismiss="modal" aria-hidden="true" class="close md-close"><span class="mdi mdi-close"></span></button>
+					<h3 class="modal-title">Add project</h3>
+			  </div>
           <div class="modal-body">
 			<div id="add_project_console"></div>
 			<div class="form-group">
-				<label>Client <span class="mandatory">*</span></label>
+				<label>Company <span class="mandatory">*</span></label>
 				<select name="client_id" id="client_id" class="form-control">
-					<option value="0">-- Select client --</option>
+					<option value="0">-- Select company --</option>
 					<?php
 					
-						foreach($clients as $client)
+						foreach($companies as $company)
 						{
-							echo '<option value="' . $client['client_id'] . '">' . $client['client_company'] . '</option>';
+							echo '<option value="' . $company['company_id'] . '">' . $company['company_name'] . '</option>';
 						}
 						
 					?>

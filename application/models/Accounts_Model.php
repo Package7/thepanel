@@ -5,6 +5,7 @@
 		public $_LastAccountId 		= 	NULL;
 		public $message				=	NULL;
 		public $results 			= 	NULL;
+		public $result				=	NULL;
 		public $last_inserted_id	=	NULL;
 		
 		public function __construct()
@@ -48,11 +49,12 @@
 			
 			if($query && $query->num_rows()==1)
 			{
-				return $query->row_array();
+				$this->result = $query->row_array();
+				return true;
 			}
 			else
 			{
-				return 'Generic error';
+				return false;
 			}
 		}
 		
@@ -60,8 +62,13 @@
 		{
 			try
 			{
-				if(is_numeric($data['company_id']))
+				if(isset($data['company_id']))
 				{
+					// get project_id 
+					$this->load->model('Projects_Model');
+					$this->Projects_Model->get_default_project($data['company_id']);
+					$data['project_id'] = $this->Projects_Model->results['project_id'];
+					
 					$this->db->trans_begin();
 					
 					$this->db->insert('accounts', array
@@ -84,7 +91,16 @@
 					(
 						'company_id'				=>	$data['company_id'],
 						'account_id'				=>	$this->last_inserted_id,
-						'company_account_isdefault'	=>	1
+						'company_account_isdefault'	=>	1,
+						'company_account_isowner'	=>	0
+					));
+					
+					$this->db->insert('projects_followers', array
+					(
+						'project_id'							=>	$data['project_id'],
+						'account_id'							=>	$this->last_inserted_id,
+						'project_follower_email_notifications'	=>	1,
+						'project_follower_text_notifications'	=>	1
 					));
 					
 					if ($this->db->trans_status() === FALSE)
@@ -97,7 +113,6 @@
 						$this->db->trans_commit();
 						return true;
 					}
-					echo 'aici1';
 				}
 				else
 				{
@@ -255,6 +270,62 @@
 			{
 				$this->errors = $ex->getMessage();
 				return false;
+			}
+		}
+		
+		public function assign_account($data)
+		{
+			$this->db->trans_begin();
+					
+			$this->db->insert('teams_members', array
+			(
+				'team_id' 				=> 	$data['team_id'],
+				'account_id' 			=> 	$data['account_id'],
+				'team_member_assigned' 	=> 	get_current_datetime()
+			));
+			
+			if ($this->db->trans_status() === FALSE)
+			{
+				$this->db->trans_rollback();
+				return false;
+			}
+			else
+			{
+				$this->db->trans_commit();
+				return true;
+			}
+		}
+		
+		public function get_available_accounts($company_id)
+		{
+			$available_accounts = array();
+			
+			$query = $this->db->query("SELECT t1.company_account_isowner, t2.account_id, t2.account_fname, t2.account_lname FROM companies_accounts AS t1 LEFT JOIN accounts AS t2 ON t2.account_id = t1.account_id WHERE t1.company_id = '$company_id'");
+			
+			if($query->num_rows() > 0)
+			{
+				$available_accounts['clients'] = $query->result_array();
+			}
+			
+			$query = $this->db->query("SELECT account_id, account_fname, account_lname FROM accounts WHERE account_group_id = '2'");
+			
+			if($query->num_rows() > 0)
+			{
+				$available_accounts['admins'] = $query->result_array();
+			}
+			
+			return $available_accounts;
+		}
+		
+		public function getResults($format = NULL)
+		{
+			if($format === 'json')
+			{
+				return json_encode($this->results);
+			}
+			else
+			{
+				return $this->results();
 			}
 		}
 		

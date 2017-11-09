@@ -9,7 +9,6 @@ var App = (function ()
 		
 		$('tr#company_link').click(function(event)
 		{
-			alert('test');
 			if (event.target.type == "checkbox") 
 			{
 				event.stopPropagation();
@@ -20,7 +19,17 @@ var App = (function ()
 			}
 		});
 		
-		$('form#add_company').submit(function(event)
+		$.validate({
+			form : 'form#create_company'
+		});
+		
+		$('button#create_company').on('click', function(event)
+		{
+			event.preventDefault();
+			$('form#create_company').submit();
+		});
+		
+		$('form#create_company').on('submit', function(event)
 		{
 			event.preventDefault();
 			
@@ -28,31 +37,60 @@ var App = (function ()
 			{
 				type: 'POST',
 				url: site_url('homepage', 'add_company_process'),
-				data: $(this).serialize(),
+				data: $('form#create_company').serialize(),
 				success: function(data)
 				{
-					try {
-					var response = $.parseJSON(JSON.stringify(data));
-				
-					  if(response.status==302)
-					  {
-						  window.location.replace(response.url);
-					  }
-					  else
-					  {
-						$('div#add_company_console').html('<div class="alert alert-danger"><strong>Please correct the following errors</strong>: ' + response.errors + '</div>');
-					  }
-					} catch(e) {
+					if(data.status==302) {
 					}
 					
+					// (data.status);
+					console.log(data.errors);
+					$('div#create_company_console').html(data);
 				}
 			});
 		});
 		
-		$('button#add_company').on('click', function(event)
-		{
-			event.preventDefault();
-			$('form#add_company').submit();
+		$.fn.editable.defaults.mode = 'popup';     
+		
+		//make username editable
+		$('#company_name').editable({
+			type: 'text',
+			url: 'http://thepanel.package7.com/companies/update_company', 
+			placement: 'bottom',
+			title: 'select status',
+			ajaxOptions: { dataType: 'json' }
+		});
+		
+		$('#company_registration_number').editable({
+			type: 'text',
+			url: 'http://thepanel.package7.com/companies/update_company', 
+			placement: 'bottom',
+			title: 'select status',
+			ajaxOptions: { dataType: 'json' }
+		});
+		
+		$('#company_address').editable({
+			type: 'text',
+			url: 'http://thepanel.package7.com/companies/update_company', 
+			placement: 'bottom',
+			title: 'select status',
+			ajaxOptions: { dataType: 'json' }
+		});
+		
+		$('#company_city').editable({
+			type: 'text',
+			url: 'http://thepanel.package7.com/companies/update_company', 
+			placement: 'bottom',
+			title: 'select status',
+			ajaxOptions: { dataType: 'json' }
+		});
+		
+		$('#company_postcode').editable({
+			type: 'text',
+			url: 'http://thepanel.package7.com/companies/update_company', 
+			placement: 'bottom',
+			title: 'select status',
+			ajaxOptions: { dataType: 'json' }
 		});
 	};
 	return App;

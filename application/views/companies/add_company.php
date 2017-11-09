@@ -17,17 +17,17 @@
 				<div class="main-content container-fluid">    
 					<div class="row">
 						<div class="col-sm-6 col-sm-offset-3">
-							<form id="add_company">
+							<form id="create_company">
 								<div class="panel panel-default panel-border-color panel-border-color-primary">
 									<div class="panel-heading panel-heading-divider">
 										Add a company
 										<span class="panel-subtitle">Start up by creating a new company</span>
 									</div>
 									<div class="panel-body">
-										<div id="add_company_console"></div>
+										<div id="create_company_console"></div>
 										<div class="form-group xs-pt-10">
-											<label>Company name</label>
-											<input name="company_name" id="company_name" type="text" placeholder="(eg. Agency7 LLP)" class="form-control">
+											<label>Company name <span class="mandatory">*</span></label>
+											<input name="company_name" id="company_name" type="text" placeholder="(eg. Agency7 LLP)" class="form-control" data-validation="required" data-validation-error-msg="Please type in your company name">
 										</div>
 										<div class="form-group xs-pt-10">
 											<label>Registration number</label>
@@ -57,10 +57,9 @@
 										<span class="panel-subtitle">Your first project details</span>
 									</div>
 									<div class="panel-body">
-										<div id="add_company_console"></div>
 										<div class="form-group xs-pt-10">
-											<label>Project name</label>
-											<input name="project_name" id="project_name" type="text" placeholder="(eg. package7.com)" class="form-control">
+											<label>Project name <span class="mandatory">*</span></label>
+											<input name="project_name" id="project_name" type="text" placeholder="(eg. package7.com)" class="form-control" data-validation="required" data-validation-error-msg="Please type in a name for your first project">
 										</div>
 										<div class="form-group xs-pt-10">
 											<label>Description</label>
@@ -70,7 +69,7 @@
 									<div class="panel-footer">
 										<p class="text-right">
 											<button class="btn btn-space btn-default">Cancel</button>
-											<button id="add_company" type="submit" class="btn btn-space btn-primary">Save</button>
+											<button id="create_company" type="submit" class="btn btn-space btn-primary">Save</button>
 										</p>
 									</div>
 									

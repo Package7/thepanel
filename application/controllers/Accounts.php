@@ -10,20 +10,91 @@
 			parent::__construct();
 			
 			$this->load->model('Accounts_Model');
+			$this->load->model('Teams_Model');
 			$this->load->model('Projects_Model');
 			$this->load->model('Companies_Model');
 		}
 		
 		public function index()
 		{
-			$data = array
-			(
-				'webpage_title'	=>	'Accounts',
-				'accounts'	=>	$this->Accounts_Model->get_accounts()
-			);
+			if($this->Permissions_Model->is_admin())
+			{
+				$data = array
+				(
+					'webpage_title'	=>	'Accounts',
+					'accounts'	=>	$this->Accounts_Model->get_accounts()
+				);
 			
-			$this->load->template('accounts/view_accounts', $data);
+				$this->load->template('accounts/view_accounts', $data);
+			}
+			else
+			{
+				$data['webpage_title'] = 'Accounts';
+				$data['accounts'] = array();
+				
+				/* Get accounts array based on company_id */
+				if($this->Accounts_Model->get_accounts($this->session->userdata('company')['company_id']))
+				{
+					$data['accounts'] = $this->Accounts_Model->results;
+				}
+				
+				$this->load->template('accounts/companies_accounts', $data);
+			}
 		}
+		
+		public function assign_account($company_id, $account_id)
+		{
+			$data = array(); /* init empty array */
+			$data['teams'] = array();
+			
+			if($this->Teams_Model->get_teams($company_id))
+			{
+				$data['teams'] = $this->Teams_Model->results;
+				$data['company_id'] = $company_id;
+				$data['account_id'] = $account_id; 
+			}
+			
+			$this->load->view('accounts/assign_account', $data);
+		}
+		
+		public function assign_account_process()
+		{
+			if(intval($this->input->post('team_id')) == 0)
+			{
+				$response['status'] = 400;
+				$response['errors'] = '<p>Please select a team</p>';
+			}
+			else
+			{
+				$data = array
+				(
+					'team_id'		=>	$this->input->post('team_id'),
+					'account_id'	=>	$this->input->post('account_id')
+				);
+				
+				if($this->Accounts_Model->assign_account($data) === TRUE)
+				{
+					$response['status'] = 	200;
+					$response['url']	=	'refresh';
+				}
+				else
+				{
+					$response['status'] = 400;
+					$response['errors'] = '<p>General error. Please contact support.</p>';
+				}
+			}
+			
+			header('Content-Type: application/json');
+			echo json_encode($response);
+		}
+		
+		public function profile()
+		{
+			$this->load->template('accounts/profile');
+		}
+		
+		
+		/* to be deprecated */
 		
 		public function view_account($account_id)
 		{
@@ -108,7 +179,7 @@
 		public function create_account()
 		{
 			$this->form_validation->set_rules('account_name', 'Full name', 'required');
-			$this->form_validation->set_rules('account_phone', 'Phone', 'required|is_unique[accounts.account_phone]|regex_match[/^[0-9]{11}$/]');
+			// $this->form_validation->set_rules('account_phone', 'Phone', 'required|is_unique[accounts.account_phone]|regex_match[/^[0-9]{11}$/]');
 			$this->form_validation->set_rules('account_email', 'Email', 'required|valid_email|is_unique[accounts.account_email]');
 			$this->form_validation->set_rules('account_password', 'Password', 'required');
 			$this->form_validation->set_rules('account_password_confirm', 'Confirm Password', 'required|matches[account_password]');
@@ -247,12 +318,11 @@
 				
 				if($this->Accounts_Model->register_account($data)==true)
 				{
-					// load email model
 					$this->load->model('Emails_Model');
-					$this->Emails_Model->send_activation_code($this->input->post('account_email'), $data['account_email_code']);
+					$this->Emails_Model->send_activation_code($data['account_email'], $data['account_email_code']);
 					
 					$this->load->model('SMS_Model');
-					$this->SMS_Model->send_sms($account_phone, $data['account_phone_code'] . ' is your MyPrintPanel.com account activation code');
+					$this->SMS_Model->send_sms($account_phone, $data['account_phone_code'] . ' is your Package7 account activation code');
 					
 					redirect('/activate');
 				}

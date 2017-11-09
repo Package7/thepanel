@@ -1,4 +1,39 @@
 /*! Place your custom styles here */
+.modal.fade:not(.in).right .modal-dialog {
+    -webkit-transform: translate3d(25%, 0, 0);
+    transform: translate3d(25%, 0, 0);
+}
+#dropzone {
+    background: palegreen;
+    width: 150px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    font-weight: bold;
+}
+#dropzone.in {
+    width: 600px;
+    height: 200px;
+    line-height: 200px;
+    font-size: larger;
+}
+#dropzone.hover {
+    background: lawngreen;
+}
+#dropzone.fade {
+    -webkit-transition: all 0.3s ease-out;
+    -moz-transition: all 0.3s ease-out;
+    -ms-transition: all 0.3s ease-out;
+    -o-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+    opacity: 1;
+}
+
+.file-attachement {
+	margin-top: 5px;
+	background: #EEEEEE;
+	padding: 5px;
+}
 
 .mandatory {
 	color: #FF0000;
@@ -107,3 +142,11 @@
 }
 
   .be-top-header .navbar-header .navbar-brand { background-size: contain !important; width: 230px !important; background-position: center center !important;}
+  
+  
+  .editable-click, 
+a.editable-click, 
+a.editable-click:hover { border-bottom: 0 !important; }
+
+.project-task-info { background: #EEEEEE; padding: 5px; }
+.project-task-info > ul { padding: 0; margin: 0; }

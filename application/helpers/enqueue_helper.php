@@ -56,6 +56,8 @@
 			$link .= '<link rel="stylesheet" type="text/css" href="' . base_url() . 'public/' . $path . '.css"/>';
 		}
 		
+		$link .= '<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>';
+		
 		return $link;
 	}
 	
@@ -126,6 +128,10 @@
 		{
 			$script .= '<script type="text/javascript" src="' . base_url() . 'public/' . $path . '.js"></script>';
 		}
+		
+		// jquery validation cdn - to be removed
+		$script .= '
+		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>';
 		
 		return $script;
 	}

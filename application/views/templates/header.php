@@ -1,10 +1,3 @@
-<?php
-
-	// echo '<pre>';
-	// print_r($_SESSION);
-	// echo '</pre>';
-	
-?>
 <nav class="navbar navbar-default navbar-fixed-top be-top-header">
         <div class="container-fluid">
           <div class="navbar-header"><a href="<?= base_url(); ?>" class="navbar-brand"></a>
@@ -30,14 +23,14 @@
                       <div class="user-position online">Available</div>
                     </div>
                   </li>
-                  <li><a href="<?= base_url('accounts/view'); ?>"><span class="icon mdi mdi-face"></span> Account</a></li>
+                  <li><a href="<?= base_url('profile'); ?>"><span class="icon mdi mdi-face"></span> Profile</a></li>
                   <!--<li><a href="#"><span class="icon mdi mdi-settings"></span> Settings</a></li>-->
                   <li><a href="<?= base_url('logout'); ?>"><span class="icon mdi mdi-power"></span> Logout</a></li>
                 </ul>
               </li>
             </ul>
-            <div class="page-title"><span><?= $webpage_title; ?></span></div>
-            <ul class="nav navbar-nav navbar-right be-icons-nav">
+            <div class="page-title"><span></span></div>
+            <ul class="nav navbar-nav navbar-right be-icons-nav" style="display: none; visibility: hidden;">
               <li class="dropdown"><a href="#" role="button" aria-expanded="false" class="be-toggle-right-sidebar"><span class="icon mdi mdi-settings"></span></a></li>
               <li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle"><span class="icon mdi mdi-notifications"></span><span class="indicator"></span></a>
                 <ul class="dropdown-menu be-notifications">
