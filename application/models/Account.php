@@ -32,6 +32,7 @@
 				$this->account_phone 		= 	$result['account_phone'];
 				$this->account_group		=	$this->get_account_group($result['account_group_id']);
 				$this->account_companies 	= 	$this->get_companies($result['account_id']);
+				$this->account_projects 	= 	$this->get_projects($result['account_id']);
 			}
 		}
 		
@@ -50,7 +51,16 @@
 			$query = $this->db->query("SELECT t2.company_name, t2.company_registration_number FROM companies_accounts AS t1 LEFT JOIN companies AS t2 ON t2.company_id = t1.company_id WHERE t1.account_id = '$account_id'");
 			
 			if($query->num_rows() != 0) {
-				$results = $query->results_array();
+				$results = $query->result_array();
+				return $results;
+			}
+		}
+		
+		public function get_projects($account_id) {
+			$query = $this->db->query("SELECT t2.project_name, t2.project_tasks_count, t2.project_files_count, t2.project_notes_count FROM projects_followers AS t1 LEFT JOIN projects AS t2 ON t2.project_id = t1.project_id WHERE t1.account_id = '$account_id'");
+			
+			if($query->num_rows() != 0) {
+				$results = $query->result_array();
 				return $results;
 			}
 		}
