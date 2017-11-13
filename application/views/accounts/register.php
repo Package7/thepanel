@@ -17,7 +17,7 @@
 					<div class="splash-container sign-up">
 						<div class="panel panel-default panel-border-color panel-border-color-primary">
 							<div class="panel-heading">
-								<img src="/public/img/logo-xx.png" alt="logo" height="50" class="logo-img"><span class="splash-description">Please enter your user information.</span>
+								<img src="<?= base_url('public/img/logo.png'); ?>" alt="logo" class="logo-img"><span class="splash-description">Please enter your user information.</span>
 							</div>
 							<div class="panel-body">
 								<form action="<?php echo base_url('register'); ?>" method="post" data-parsley-validate=""><span class="splash-title xs-pb-20">Sign Up</span>
@@ -37,7 +37,7 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<input type="tel" name="account_phone" id="account_phone" required="required" placeholder="Phone number" autocomplete="off" class="form-control">
+										<input type="tel" name="account_phone" id="account_phone" required="required" placeholder="Mobile number" autocomplete="off" class="form-control">
 									</div>
 									<div class="form-group xs-pt-10">
 										<div class="be-checkbox">
