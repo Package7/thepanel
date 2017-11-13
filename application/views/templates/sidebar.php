@@ -10,9 +10,14 @@
 						</li>
 						<?php
 						
-							foreach($menu as $item)
-							{
-								echo $item;
+							// echo '<pre>';
+							// print_r($this->Account->debug());
+							// echo '</pre>';
+							
+							if(!$this->Permissions_Model->is_admin() && isset($this->Account->account_companies)) {
+								foreach($menu as $item) {
+									echo $item;
+								}
 							}
 							
 						?>
