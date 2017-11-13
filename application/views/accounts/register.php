@@ -37,7 +37,7 @@
 										</div>
 									</div>
 									<div class="form-group">
-										<input type="tel" name="account_phone" id="account_phone" required="required" placeholder="Phone number" autocomplete="off" class="form-control">
+										<input type="tel" name="account_phone" id="account_phone" required="required" placeholder="Mobile number" autocomplete="off" class="form-control">
 									</div>
 									<div class="form-group xs-pt-10">
 										<div class="be-checkbox">
