@@ -17,7 +17,7 @@
 					<div class="splash-container sign-up">
 						<div class="panel panel-default panel-border-color panel-border-color-primary">
 							<div class="panel-heading">
-								<img src="/public/img/logo-xx.png" alt="logo" height="50" class="logo-img"><span class="splash-description">Please enter your activation code.</span>
+								<img src="<?= base_url('public/img/logo.png'); ?>" alt="logo" class="logo-img"><span class="splash-description">Please enter your activation code.</span>
 							</div>
 							<div class="panel-body">
 								<form action="<?php echo base_url('activate'); ?>" method="post" data-parsley-validate=""><span class="splash-title xs-pb-20">Activate your account</span>

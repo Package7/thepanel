@@ -16,7 +16,7 @@
         <div class="main-content container-fluid">
           <div class="splash-container">
             <div class="panel panel-default panel-border-color panel-border-color-primary">
-              <div class="panel-heading"><img src="<?= base_url('public/img/logo-xx.png'); ?>" alt="logo" height="27" class="logo-img"><span class="splash-description">Please enter your user information.</span></div>
+              <div class="panel-heading"><img src="<?= base_url('public/img/logo.png'); ?>" alt="logo" class="logo-img"><span class="splash-description">Please enter your user information.</span></div>
               <div class="panel-body">
 				<?php
 				
