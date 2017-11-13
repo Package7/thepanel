@@ -28,7 +28,7 @@
 									<li class="list-group-item"><span class="badge badge-primary"><?= $project['project_files_count']; ?></span> Files</li>
 									<li class="list-group-item"><span class="badge badge-primary"><?= $project['project_notes_count']; ?></span> Notes</li>
 								</ul>
-								<a href="<?= base_url('projects/view/' . $project['project_id']); ?>" class="btn btn-primary">View project</a>
+								<a href="<?= base_url('projects/view/' . $project['project_id']); ?>" class="btn btn-block btn-primary">View project</a>
 								</div>
 							</div>
 						</div>

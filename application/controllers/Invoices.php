@@ -10,7 +10,11 @@
 		public function index()
 		{
 			$this->load->template('invoices/view_invoices', array('webpage_title' => 'Invoices'));
-		}	
+		}
+		
+		public function create() {
+			$this->load->template('invoices/create');
+		}
 	}
 	
 ?>

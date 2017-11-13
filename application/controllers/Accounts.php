@@ -22,8 +22,11 @@
 				$data = array
 				(
 					'webpage_title'	=>	'Accounts',
-					'accounts'	=>	$this->Accounts_Model->get_accounts()
 				);
+				
+				if($this->Accounts_Model->get_accounts()) {
+					$data['accounts'] = $this->Accounts_Model->results;
+				}
 			
 				$this->load->template('accounts/view_accounts', $data);
 			}
@@ -319,7 +322,7 @@
 				if($this->Accounts_Model->register_account($data)==true)
 				{
 					$this->load->model('Emails_Model');
-					$this->Emails_Model->send_activation_code($data['account_email'], $data['account_email_code']);
+					$this->Emails_Model->send_activation_code($data);
 					
 					$this->load->model('SMS_Model');
 					$this->SMS_Model->send_sms($account_phone, $data['account_phone_code'] . ' is your Package7 account activation code');

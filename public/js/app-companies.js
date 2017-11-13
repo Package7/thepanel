@@ -41,57 +41,55 @@ var App = (function ()
 				success: function(data)
 				{
 					if(data.status==302) {
+						window.location.replace(data.url);
+					} else {
+						$('div#create_company_console').html(data);
 					}
-					
-					// (data.status);
-					console.log(data.errors);
-					$('div#create_company_console').html(data);
 				}
 			});
 		});
 		
-		$.fn.editable.defaults.mode = 'popup';     
+		// $.fn.editable.defaults.mode = 'popup';     
 		
-		//make username editable
-		$('#company_name').editable({
-			type: 'text',
-			url: 'http://thepanel.package7.com/companies/update_company', 
-			placement: 'bottom',
-			title: 'select status',
-			ajaxOptions: { dataType: 'json' }
-		});
+		// $('#company_name').editable({
+			// type: 'text',
+			// url: 'http://thepanel.package7.com/companies/update_company', 
+			// placement: 'bottom',
+			// title: 'select status',
+			// ajaxOptions: { dataType: 'json' }
+		// });
 		
-		$('#company_registration_number').editable({
-			type: 'text',
-			url: 'http://thepanel.package7.com/companies/update_company', 
-			placement: 'bottom',
-			title: 'select status',
-			ajaxOptions: { dataType: 'json' }
-		});
+		// $('#company_registration_number').editable({
+			// type: 'text',
+			// url: 'http://thepanel.package7.com/companies/update_company', 
+			// placement: 'bottom',
+			// title: 'select status',
+			// ajaxOptions: { dataType: 'json' }
+		// });
 		
-		$('#company_address').editable({
-			type: 'text',
-			url: 'http://thepanel.package7.com/companies/update_company', 
-			placement: 'bottom',
-			title: 'select status',
-			ajaxOptions: { dataType: 'json' }
-		});
+		// $('#company_address').editable({
+			// type: 'text',
+			// url: 'http://thepanel.package7.com/companies/update_company', 
+			// placement: 'bottom',
+			// title: 'select status',
+			// ajaxOptions: { dataType: 'json' }
+		// });
 		
-		$('#company_city').editable({
-			type: 'text',
-			url: 'http://thepanel.package7.com/companies/update_company', 
-			placement: 'bottom',
-			title: 'select status',
-			ajaxOptions: { dataType: 'json' }
-		});
+		// $('#company_city').editable({
+			// type: 'text',
+			// url: 'http://thepanel.package7.com/companies/update_company', 
+			// placement: 'bottom',
+			// title: 'select status',
+			// ajaxOptions: { dataType: 'json' }
+		// });
 		
-		$('#company_postcode').editable({
-			type: 'text',
-			url: 'http://thepanel.package7.com/companies/update_company', 
-			placement: 'bottom',
-			title: 'select status',
-			ajaxOptions: { dataType: 'json' }
-		});
+		// $('#company_postcode').editable({
+			// type: 'text',
+			// url: 'http://thepanel.package7.com/companies/update_company', 
+			// placement: 'bottom',
+			// title: 'select status',
+			// ajaxOptions: { dataType: 'json' }
+		// });
 	};
 	return App;
 })(App || {});

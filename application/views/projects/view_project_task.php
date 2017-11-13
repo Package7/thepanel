@@ -128,10 +128,9 @@
 									<div class="col-sm-2" align="center"><i class="fa ' . $file['project_file_type_icon'] . '" fa-2x></i></div>
 									<div class="col-sm-6">' . substr($file['project_file_name'], 0,10) . '...' . '</div>
 									<div class="col-sm-2">' . $file['project_file_size'] . ' MB</div>
-									<div class="col-sm-2"><a href="' . base_url('download.php?url=' . base_url('public/uploads/' . $task['project_id'] . '/' . $file['project_file_name'])) . '">Download</a></div>
+									<div class="col-sm-2"><a href="' . base_url('download.php?url=' . base_url('public/uploads/' . $task['project_id'] . '/' . $file['project_file_name'])) . '" class="btn btn-xs btn-primary"><i class="mdi mdi-download"></i> Download</a></div>
 									</div>
 									</div>';
-
 									if(count($comment['files'])==$i)
 									{
 									echo '<div class="clearfix" style="clear: both;"></div>';

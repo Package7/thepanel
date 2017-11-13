@@ -23,9 +23,8 @@
 									<div class="tools dropdown">
 										<?php
 										
-											if(intval($this->session->userdata('account_isadmin'))==1)
-											{
-												echo '<a href="#" class="btn btn-success" data-toggle="modal" data-target="#create_company_modal" ><i class="mdi mdi-plus-square"></i> Company</a>';
+											if($this->Permissions_Model->is_admin()) {
+												echo '<a href="'. base_url('companies/create') . '" class="btn btn-success"><i class="mdi mdi-plus-square"></i> Company</a>';
 											}
 											
 										?>

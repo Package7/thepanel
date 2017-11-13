@@ -25,6 +25,34 @@
 								<div class="panel-body">
 									<div class="table-responsive noSwipe">
 										<table class="table table-striped table-hover">
+											<?php if($this->Permissions_Model->is_admin() && $this->Permissions_Model->has_access('view_accounts')): ?>
+												<thead>
+													<th style="width:20%;">Name</th>
+													<th style="width:20%;">Group</th>
+													<th style="width:20%;">Email address</th>
+													<th style="width:17%;">Phone number</th>
+													<th style="width:10%;" colspan="2">Options</th>
+												</thead>
+												<tbody>
+													<?php 
+													
+														if(isset($accounts)) {
+															foreach($accounts as $account) {
+																echo '
+																<tr>
+																	<td>' . $account['account_fname'] . ' ' . $account['account_lname'] . '</td>
+																	<td>' . $account['account_group_id'] . '</td>
+																	<td>' . $account['account_email'] . '</td>
+																	<td>' . $account['account_phone'] . '</td>
+																</tr>';
+															}
+														} else {
+															echo '<tr><td colspan="6" align="center">No accounts</td></tr>';
+														}
+														
+													?>
+												</tbody>
+											<?php elseif($this->Permissions_Model->has_access('view_accounts')): ?>
 											<thead>
 												<th style="width:5%;">
 													<div class="be-checkbox be-checkbox-sm">
@@ -64,6 +92,7 @@
 
 											?>
 											</tbody>
+											<?php endif; ?>
 										</table>
 									</div>
 								</div>

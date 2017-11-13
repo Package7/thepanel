@@ -11,6 +11,9 @@
 						<small><?= $this->session->userdata('company')['company_registration_number']; ?></small>
 					</a>
 				</li>
+				<?php else: ?>
+				<li class="hidden-xs">
+					<a href="<?= base_url('accounts/groups'); ?>"><i class="mdi mdi-accounts-list-alt" style="font-size: 24px; vertical-align: middle;"></i> <?= $this->Account->account_group['name']; ?></a>
 				<?php endif; ?>
               <li class="dropdown"><a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="dropdown-toggle">
 			  <img src="<?= get_avatar($this->session->userdata('account_id')); ?>" alt="Avatar"><span class="user-name"><?= $this->session->userdata('account_fname'); ?></span></a>

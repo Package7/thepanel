@@ -3,6 +3,12 @@
     -webkit-transform: translate3d(25%, 0, 0);
     transform: translate3d(25%, 0, 0);
 }
+
+.equal {  
+    display: -webkit-flex !important;
+    display: flex !important;
+}
+
 #dropzone {
     background: palegreen;
     width: 150px;

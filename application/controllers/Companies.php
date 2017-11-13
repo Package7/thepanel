@@ -40,6 +40,20 @@
 			$this->load->template('companies/view_companies', $data);
 		}
 		
+		public function create() {
+			if($this->Permissions_Model->is_admin()) {
+				$data = array();
+					
+				if($this->Accounts_Model->get_accounts()) {
+					$data['accounts'] = $this->Accounts_Model->results;
+				}
+				
+				$this->load->template('companies/create', $data);
+			} else {
+				redirect(base_url('companies'));
+			}
+		}
+		
 		public function create_company() {
 			$this->load->template('companies/add_company');
 		}

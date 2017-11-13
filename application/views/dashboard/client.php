@@ -49,7 +49,7 @@
 					</div>
 						<div class="row">
 							<div class="col-md-12">
-								<div class="panel panel-default">
+								<div class="panel panel-default panel-table">
 									<div class="panel-heading panel-heading-divider">
 										Accounts
 										<div class="tools">
@@ -75,7 +75,7 @@
 											else
 											{
 												echo '
-												<table class="table table-striped">
+												<table class="table table-striped table-borderless">
 												<thead>
 													<th>Full name</th>
 													<th>Email address</th>
